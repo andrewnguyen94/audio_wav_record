@@ -61,11 +61,34 @@ SAMPLE * get_audio_signal_from_source()
 	err = Pa_CloseStream(stream);
 	if (err != paNoError) goto error;
 
+	return recordedSamples;
 error:
 	Pa_Terminate();
 	fprintf(stderr, "An error occured while using the portaudio stream\n");
 	fprintf(stderr, "Error number: %d\n", err);
 	fprintf(stderr, "Error message: %s\n", Pa_GetErrorText(err));
 	return -1;
-	return recordedSamples;
+}
+
+void record_audio_to_database()
+{
+	SAMPLE *audio_signal = get_audio_signal_from_source();
+	
+}
+
+char * get_name_of_new_file()
+{
+	
+	return NULL;
+}
+
+KEYWORDS get_key_word(int key)
+{
+	if (key == 0) return TU;
+	else if (key == 1) return TRUNG_ANH;
+	else if (key == 2) return TRUNG;
+	else {
+		char *err = (char *)"Keyword no exists!";
+		error(err);
+	}
 }

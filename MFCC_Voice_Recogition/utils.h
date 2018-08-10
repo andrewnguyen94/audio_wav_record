@@ -28,6 +28,8 @@ struct COMPLEX {
 /*functions
 ------------------------------------------
 ------------------------------------------*/
-SAMPLE *DFT(SAMPLE *signal);
-float HammingWindow(float a);
+struct COMPLEX ** DFT(SAMPLE *signal, int num_frame, int frame_length, int pointFFT);
+float HammingWindow(float a, int frameLength);
+void error(char *err);
+
 #endif
