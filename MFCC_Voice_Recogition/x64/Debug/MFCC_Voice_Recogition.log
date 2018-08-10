@@ -1,13 +1,13 @@
-﻿  record.c
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(21): warning C4013: 'malloc' undefined; assuming extern returning int
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(21): warning C4312: 'type cast': conversion from 'int' to 'SAMPLE *' of greater size
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(25): warning C4013: 'exit' undefined; assuming extern returning int
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(69): warning C4047: 'return': 'SAMPLE *' differs in levels of indirection from 'int'
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(13): warning C4101: 'max': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(13): warning C4101: 'average': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(13): warning C4101: 'val': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(5): warning C4101: 'outputParameters': unreferenced local variable
-  main.c
+﻿  main.c
+  record.c
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(21): warning C4013: 'malloc' undefined; assuming extern returning int
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(21): warning C4312: 'type cast': conversion from 'int' to 'SAMPLE *' of greater size
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(25): warning C4013: 'exit' undefined; assuming extern returning int
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(69): warning C4047: 'return': 'SAMPLE *' differs in levels of indirection from 'int'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'max': unreferenced local variable
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'average': unreferenced local variable
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'val': unreferenced local variable
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(5): warning C4101: 'outputParameters': unreferenced local variable
+  utils.c
   Generating Code...
-  MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
-  MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.pdb (Partial PDB)
+  MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe
