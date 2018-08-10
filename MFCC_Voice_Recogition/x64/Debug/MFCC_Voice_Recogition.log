@@ -1,4 +1,16 @@
-﻿  utils.c
+﻿  main.c
+  record.c
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.h(14): error C2061: syntax error: identifier 'SAMPLE'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.h(18): error C2059: syntax error: '}'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.h(31): error C2143: syntax error: missing ')' before '*'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.h(31): error C2143: syntax error: missing '{' before '*'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.h(31): error C2059: syntax error: 'type'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.h(31): error C2059: syntax error: ')'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(21): warning C4013: 'malloc' undefined; assuming extern returning int
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(21): warning C4312: 'type cast': conversion from 'int' to 'SAMPLE *' of greater size
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(25): warning C4013: 'exit' undefined; assuming extern returning int
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(70): warning C4047: 'return': 'SAMPLE *' differs in levels of indirection from 'int'
+  utils.c
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(4): warning C4028: formal parameter 1 different from declaration
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(7): warning C4013: 'malloc' undefined; assuming extern returning int
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(9): warning C4047: '=': 'COMPLEX *' differs in levels of indirection from 'int'
@@ -8,5 +20,8 @@ d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(20
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(29): warning C4013: 'free' undefined; assuming extern returning int
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(7): warning C4047: 'initializing': 'COMPLEX **' differs in levels of indirection from 'int'
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(37): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(43): warning C4013: 'exit' undefined; assuming extern returning int
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(42): warning C4474: 'fprintf' : too many arguments passed for format string
+  d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(42): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+  Generating Code...
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\utils.c(33): warning C4715: 'DFT': not all control paths return a value
-  MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe
