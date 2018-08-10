@@ -1,6 +1,6 @@
-#include "utils.h"
+﻿#include "utils.h"
 
-SAMPLE * DFT(SAMPLE **frames,int num_frame, int frame_length, int pointFFT)
+struct COMPLEX ** DFT(SAMPLE **frames,int num_frame, int frame_length, int pointFFT)
 {
 	float temp, real = 0, img = 0;
 	
@@ -31,6 +31,66 @@ SAMPLE * DFT(SAMPLE **frames,int num_frame, int frame_length, int pointFFT)
 		return fft;
 	}
 
+}
+
+int getLength(SAMPLE * a)
+{
+	return sizeof(a) / sizeof(a[0]);
+}
+
+SAMPLE ** getFrames(struct SIGNAL a)
+{
+	int signal_len = getLength(a.raw_signal);
+	int frame_len = a.frame_length;
+	int frame_step = a.step_lengh;
+
+	if (signal_len <= frame_len)        //số mẫu toàn tín hiệu nhỏ hơn độ rộng khung
+		a.num_frame = 1;
+	else
+	{
+		float num_additional_frames = (float)(signal_len - frame_len) / frame_step;   //so frame khong tinh frame cuoi
+		num_additional_frames = (ceil(num_additional_frames));
+		a.num_frame = 1 + (int)num_additional_frames;                             //numframes (frame cuoi day du hoac khong)
+	}
+
+	int padsignal_len = (a.num_frame - 1) * frame_step + frame_len;      //do dai chuoi tin hieu neu cac frame day du
+	int zeros = padsignal_len - signal_len;                //Do dai chuoi Zeros can pad.
+	
+	realloc(a.raw_signal,zeros);
+	for (int i = signal_len; i < signal_len + zeros; i++)         //chen them 0 vao frame cuoi.
+	{
+		a.raw_signal[i] = 0;
+	}
+
+
+	// thuc hien chia frame (0:0->framelen, 1:framestep->(framelen + framestep),...
+	int index = 0;
+	int dem1 = 0, dem2 = 0;
+	int temp = frame_step;
+	SAMPLE **frames = malloc(sizeof(SAMPLE*) * a.num_frame);
+	for (int i = 0; i < a.frame_length + 1; i++){
+		frames[i] = malloc(sizeof(struct COMPLEX*)*(a.frame_length));
+		frames[i] = 0;
+	}
+	while (index < a.num_frame)
+	{
+		if (index == 0)                 //frame dau tien
+			for (int i = 0; i < frame_len; i++)
+			{
+				frames[index][i] = a.raw_signal[i];
+			}
+		else                          //cac frames con lai, framestep->(framelen + framestep)...
+		{
+			for (int i = temp; i < temp + frame_len; i++)
+			{
+				frames[index][dem1++] = a.raw_signal[i];
+			}
+			temp += frame_step;
+			dem1 = 0;
+		}
+		index++;
+	}
+	return frames;
 }
 
 float HammingWindow(float a)

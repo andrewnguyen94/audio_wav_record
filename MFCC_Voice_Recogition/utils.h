@@ -12,9 +12,9 @@
 ------------------------------------------*/
 struct SIGNAL {
 	SAMPLE *raw_signal;
-	const float frame_length;		//so sample trong 1 frame
-	const float step_lengh;		//do dai bc nhay
-	const int num_frame;			//so frame trong 1 audio signal
+	float frame_length;		//so sample trong 1 frame
+	float step_lengh;		//do dai bc nhay
+	int num_frame;			//so frame trong 1 audio signal
 };
 
 struct COMPLEX {
@@ -28,6 +28,8 @@ struct COMPLEX {
 /*functions
 ------------------------------------------
 ------------------------------------------*/
-SAMPLE *DFT(SAMPLE *signal);
-float HammingWindow(float a);
+int getLength(SAMPLE *a);
+SAMPLE **getFrames(struct SIGNAL a);
+struct COMPLEX **DFT(SAMPLE *signal);
+float hammingWindow(float a);
 #endif
