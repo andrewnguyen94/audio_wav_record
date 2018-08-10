@@ -8,6 +8,6 @@ d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(1
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'average': unreferenced local variable
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'val': unreferenced local variable
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(5): warning C4101: 'outputParameters': unreferenced local variable
-  utils.c
   Generating Code...
+  LINK : D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe not found or not built by the last incremental link; performing full link
   MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe
