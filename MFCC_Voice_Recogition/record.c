@@ -9,7 +9,7 @@ SAMPLE * get_audio_signal_from_source()
 	int i;
 	int totalFrames;
 	int numSamples;
-	int numBytes;
+	size_t numBytes;
 	SAMPLE max, average, val;
 
 	printf("patest_read_record.c\n"); fflush(stdout);
@@ -18,13 +18,13 @@ SAMPLE * get_audio_signal_from_source()
 	numSamples = totalFrames * NUM_CHANNELS;
 
 	numBytes = numSamples * sizeof(SAMPLE);
-	recordedSamples = (SAMPLE *)malloc(numBytes);
-	if (recordedSamples == NULL)
+	recordedSamples = (SAMPLE *) calloc(numSamples, sizeof(SAMPLE));
+	if (!recordedSamples)
 	{
 		printf("Could not allocate record array.\n");
 		exit(1);
 	}
-	for (i = 0; i<numSamples; i++) recordedSamples[i] = 0;
+	for (i = 0; i<numSamples; i++) *(recordedSamples + i) = 0;
 
 	err = Pa_Initialize();
 	if (err != paNoError) goto error;
@@ -61,6 +61,7 @@ SAMPLE * get_audio_signal_from_source()
 	err = Pa_CloseStream(stream);
 	if (err != paNoError) goto error;
 
+	return recordedSamples;
 error:
 	Pa_Terminate();
 	fprintf(stderr, "An error occured while using the portaudio stream\n");
@@ -68,4 +69,26 @@ error:
 	fprintf(stderr, "Error message: %s\n", Pa_GetErrorText(err));
 	return -1;
 	return recordedSamples;
+}
+
+void record_audio_to_database()
+{
+	//SAMPLE *audio_signal = get_audio_signal_from_source();
+	
+}
+
+char * get_name_of_new_file()
+{
+	
+	return NULL;
+}
+
+KEYWORDS get_key_word(int key)
+{
+	if (key == 0) return TU;
+	else if (key == 1) return TRUNG_ANH;
+	else if (key == 2) return TRUNG;
+	else {
+		exit(0);
+	}
 }

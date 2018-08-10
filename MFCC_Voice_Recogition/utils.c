@@ -15,7 +15,7 @@ struct COMPLEX ** DFT(SAMPLE **frames,int num_frame, int frame_length, int point
 			for (int n = 0; n < frame_length; n++)
 			{
 				double term = -2 * PI * (k + 1) * (n + 1) / frame_length;
-				temp = frames[i][n] * HammingWindow(n);
+				temp = frames[i][n] * HammingWindow(n, frame_length);
 				real += temp * cos(term);
 				img += temp * sin(term);
 			}
@@ -30,7 +30,11 @@ struct COMPLEX ** DFT(SAMPLE **frames,int num_frame, int frame_length, int point
 		free(frames);
 		return fft;
 	}
+}
 
+float HammingWindow(float a, int frameLength)
+{
+	return 0.54 - 0.46 * cos(2 * PI * a / (frameLength - 1));
 }
 
 int getLength(SAMPLE * a)
@@ -93,7 +97,8 @@ SAMPLE ** getFrames(struct SIGNAL a)
 	return frames;
 }
 
-float HammingWindow(float a)
+void error(char *err)
 {
-	return 0.0f;
+	fprintf(stderr, "error : ", err);
+	exit(0);
 }

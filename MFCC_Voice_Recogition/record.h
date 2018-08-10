@@ -5,7 +5,7 @@
 -------------------------------------------
 -------------------------------------------*/
 #include <stdio.h>
-#include <stdint.h>
+#include <stdlib.h>
 #include "portaudio.h"
 
 /*defines, constants
@@ -42,10 +42,21 @@ typedef unsigned char SAMPLE;
 #define PRINTF_S_FORMAT "%d"
 #endif
 
+typedef enum KEYWORDS {
+	TU,
+	TRUNG_ANH,
+	TRUNG
+}KEYWORDS;
+
 /*functions
 -------------------------------------------
 -------------------------------------------*/
 
 SAMPLE *get_audio_signal_from_source();
+void record_audio_to_database();
+char *get_name_of_new_file();
+KEYWORDS get_key_word(int key);
+
+
 
 #endif

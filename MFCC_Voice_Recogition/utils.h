@@ -10,6 +10,9 @@
 /*defines, constants
 ------------------------------------------
 ------------------------------------------*/
+
+#define PI 3.14159265359
+
 struct SIGNAL {
 	SAMPLE *raw_signal;
 	float frame_length;		//so sample trong 1 frame
@@ -23,13 +26,12 @@ struct COMPLEX {
 	float magnitude;	
 };
 
-#define PI 3.14159265359
-
 /*functions
 ------------------------------------------
 ------------------------------------------*/
 int getLength(SAMPLE *a);
 SAMPLE **getFrames(struct SIGNAL a);
-struct COMPLEX **DFT(SAMPLE *signal);
-float hammingWindow(float a);
+struct COMPLEX ** DFT(SAMPLE **signal, int num_frame, int frame_length, int pointFFT);
+float HammingWindow(float a, int frameLength);
+void error(char *err);
 #endif
