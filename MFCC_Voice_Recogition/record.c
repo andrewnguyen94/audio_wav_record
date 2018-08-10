@@ -9,7 +9,7 @@ SAMPLE * get_audio_signal_from_source()
 	int i;
 	int totalFrames;
 	int numSamples;
-	int numBytes;
+	size_t numBytes;
 	SAMPLE max, average, val;
 
 	printf("patest_read_record.c\n"); fflush(stdout);
@@ -18,13 +18,13 @@ SAMPLE * get_audio_signal_from_source()
 	numSamples = totalFrames * NUM_CHANNELS;
 
 	numBytes = numSamples * sizeof(SAMPLE);
-	recordedSamples = (SAMPLE *)malloc(numBytes);
-	if (recordedSamples == NULL)
+	recordedSamples = (SAMPLE *) calloc(numSamples, sizeof(SAMPLE));
+	if (!recordedSamples)
 	{
 		printf("Could not allocate record array.\n");
 		exit(1);
 	}
-	for (i = 0; i<numSamples; i++) recordedSamples[i] = 0;
+	for (i = 0; i<numSamples; i++) *(recordedSamples + i) = 0;
 
 	err = Pa_Initialize();
 	if (err != paNoError) goto error;
@@ -72,7 +72,7 @@ error:
 
 void record_audio_to_database()
 {
-	SAMPLE *audio_signal = get_audio_signal_from_source();
+	//SAMPLE *audio_signal = get_audio_signal_from_source();
 	
 }
 
@@ -88,7 +88,6 @@ KEYWORDS get_key_word(int key)
 	else if (key == 1) return TRUNG_ANH;
 	else if (key == 2) return TRUNG;
 	else {
-		char *err = (char *)"Keyword no exists!";
-		error(err);
+		exit(0);
 	}
 }
