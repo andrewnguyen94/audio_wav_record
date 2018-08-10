@@ -1,13 +1,14 @@
-﻿  record.c
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(21): warning C4013: 'malloc' undefined; assuming extern returning int
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(21): warning C4312: 'type cast': conversion from 'int' to 'SAMPLE *' of greater size
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(25): warning C4013: 'exit' undefined; assuming extern returning int
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(69): warning C4047: 'return': 'SAMPLE *' differs in levels of indirection from 'int'
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(13): warning C4101: 'max': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(13): warning C4101: 'average': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(13): warning C4101: 'val': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\record.c(5): warning C4101: 'outputParameters': unreferenced local variable
-  main.c
-  Generating Code...
+﻿  utils.c
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(4): warning C4028: formal parameter 1 different from declaration
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(4): warning C4029: declared formal parameter list different from definition
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(7): warning C4013: 'malloc' undefined; assuming extern returning int
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(9): warning C4047: '=': 'COMPLEX *' differs in levels of indirection from 'int'
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(18): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(19): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(20): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(29): warning C4013: 'free' undefined; assuming extern returning int
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(31): warning C4047: 'return': 'SAMPLE *' differs in levels of indirection from 'COMPLEX **'
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(7): warning C4047: 'initializing': 'COMPLEX **' differs in levels of indirection from 'int'
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(34): warning C4715: 'DFT': not all control paths return a value
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.pdb (Partial PDB)
