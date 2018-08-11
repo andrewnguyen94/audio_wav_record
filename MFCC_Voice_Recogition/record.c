@@ -1,6 +1,6 @@
 #include "record.h"
 
-SAMPLE * get_audio_signal_from_source()
+SAMPLE * get_audio_signal_from_source(int *size)
 {
 	PaStreamParameters inputParameters, outputParameters;
 	PaStream *stream;
@@ -18,6 +18,7 @@ SAMPLE * get_audio_signal_from_source()
 	numSamples = totalFrames * NUM_CHANNELS;
 
 	numBytes = numSamples * sizeof(SAMPLE);
+	*size = numSamples;
 	recordedSamples = (SAMPLE *) calloc(numSamples, sizeof(SAMPLE));
 	if (!recordedSamples)
 	{
@@ -61,6 +62,9 @@ SAMPLE * get_audio_signal_from_source()
 	err = Pa_CloseStream(stream);
 	if (err != paNoError) goto error;
 
+	//for (int i = 0; i < numSamples; i++) {
+	//	printf(" %f ", recordedSamples[i]);
+	//}
 	return recordedSamples;
 error:
 	Pa_Terminate();

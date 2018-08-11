@@ -42,9 +42,19 @@ int getLength(SAMPLE * a)
 	return sizeof(a) / sizeof(a[0]);
 }
 
+struct SIGNAL setSignal(SAMPLE * a,int size)
+{
+	struct SIGNAL temp;
+	temp.raw_signal = a;
+	temp.frame_length = SAMPLE_RATE*0.025;
+	temp.step_lengh = SAMPLE_RATE*0.01;
+	temp.signal_length = size;
+	return temp;
+}
+
 SAMPLE ** getFrames(struct SIGNAL a)
 {
-	int signal_len = getLength(a.raw_signal);
+	int signal_len = a.signal_length;
 	int frame_len = a.frame_length;
 	int frame_step = a.step_lengh;
 
@@ -60,7 +70,7 @@ SAMPLE ** getFrames(struct SIGNAL a)
 	int padsignal_len = (a.num_frame - 1) * frame_step + frame_len;      //do dai chuoi tin hieu neu cac frame day du
 	int zeros = padsignal_len - signal_len;                //Do dai chuoi Zeros can pad.
 	
-	realloc(a.raw_signal,zeros);
+	realloc(a.raw_signal, padsignal_len);
 	for (int i = signal_len; i < signal_len + zeros; i++)         //chen them 0 vao frame cuoi.
 	{
 		a.raw_signal[i] = 0;
@@ -71,9 +81,9 @@ SAMPLE ** getFrames(struct SIGNAL a)
 	int index = 0;
 	int dem1 = 0, dem2 = 0;
 	int temp = frame_step;
-	SAMPLE **frames = malloc(sizeof(SAMPLE*) * a.num_frame);
+	SAMPLE **frames = (SAMPLE**)malloc(sizeof(SAMPLE*) * a.num_frame);
 	for (int i = 0; i < a.frame_length + 1; i++){
-		frames[i] = malloc(sizeof(struct COMPLEX*)*(a.frame_length));
+		*(frames + i) = (SAMPLE*)malloc(sizeof(SAMPLE)*a.frame_length);
 		frames[i] = 0;
 	}
 	while (index < a.num_frame)
