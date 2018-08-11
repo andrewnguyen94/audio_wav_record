@@ -1,6 +1,6 @@
 #include "record.h"
 
-SAMPLE * get_audio_signal_from_source(int *size)
+SAMPLE * get_audio_signal_from_source()
 {
 	PaStreamParameters inputParameters, outputParameters;
 	PaStream *stream;
@@ -18,8 +18,7 @@ SAMPLE * get_audio_signal_from_source(int *size)
 	numSamples = totalFrames * NUM_CHANNELS;
 
 	numBytes = numSamples * sizeof(SAMPLE);
-	*size = numSamples;
-	recordedSamples = (SAMPLE *) calloc(numSamples, sizeof(SAMPLE));
+	recordedSamples = (SAMPLE *) malloc(numBytes);
 	if (!recordedSamples)
 	{
 		printf("Could not allocate record array.\n");
@@ -75,17 +74,69 @@ error:
 	return recordedSamples;
 }
 
-void record_audio_to_database()
-{
-
-	//SAMPLE *audio_signal = get_audio_signal_from_source();
-	
+void check_continue(char *y_n) {
+	if (0 == strcmp(y_n, "y")) {
+		free(y_n);
+		record_audio_to_database();
+	}
+	else if (0 == strcmp(y_n, "n")) {
+		free(y_n);
+		return;
+	}
+	else {
+		free(y_n);
+		y_n = (char *)malloc(sizeof(char) * 5);
+		printf("wrong answer!!! Reimport answer \n");
+		scanf("%s", y_n);
+		check_continue(y_n);
+	}
 }
 
-char * get_name_of_new_file()
+void record_audio_to_database()
 {
-	
-	return NULL;
+	SAMPLE *audio_singal = get_audio_signal_from_source();
+	int number_of_sample = get_number_of_sample_in_record();
+	char *keyword = (char *)malloc(sizeof(char) * 5);
+	char *numerical_order = (char *)malloc(sizeof(char) * 5);
+	char *y_n = (char *)malloc(sizeof(char) * 5);
+
+	printf("choose index of keyword \n");
+	printf("0 is Tu \n");
+	printf("1 is Trung Anh \n");
+	printf("2 is Trung \n");
+	scanf("%s", keyword);
+	printf("choose the number order of text file to save audio signal \n");
+	scanf("%s", numerical_order);
+	char *name = get_name_of_new_file(keyword, numerical_order);
+	FILE *fp = fopen(name, "w");
+	for (int i = 0; i < number_of_sample; ++i) {
+		if (i % NUMBER_OF_ELEMENTS_IN_A_ROW == 0) {
+			fprintf(fp, "\n");
+		}
+		fprintf(fp, "%f", audio_singal[i]);
+	}
+	fclose(fp);
+	free(keyword);
+	free(numerical_order);
+	free(audio_singal);
+	printf("Do you wanna continue to record? (y/n) \n");
+	scanf("%s", y_n);
+	check_continue(y_n);	
+}
+
+char * get_name_of_new_file(char *keyword, char *numerical_order)
+{
+	const char *data_folder = "./data/";
+	const char *ext = ".txt";
+	size_t keyword_len = strlen(keyword);
+	size_t numer_len = strlen(numerical_order);
+	char *name = (char *)malloc(sizeof(char) * (keyword_len + numer_len + 2 + 4 + 7));
+	strcpy(name, data_folder);
+	strcat(name, keyword);
+	strcat(name, "_");
+	strcat(name, numerical_order);
+	strcat(name, ext);
+	return name;
 }
 
 KEYWORDS get_key_word(int key)
@@ -96,4 +147,35 @@ KEYWORDS get_key_word(int key)
 	else {
 		exit(0);
 	}
+}
+
+int get_number_of_sample_in_record()
+{
+	return NUM_SECONDS * SAMPLE_RATE * NUM_CHANNELS;
+}
+
+SAMPLE * read_audio_signal_from_file(char * path)
+{
+	int i, j;
+	FILE *fp = fopen(path, "r");
+	int number_of_sample = get_number_of_sample_in_record();
+	SAMPLE *audio_signal = (SAMPLE *)malloc(sizeof(SAMPLE) * number_of_sample);
+	SAMPLE tmp;
+	int cols = NUMBER_OF_ELEMENTS_IN_A_ROW;
+	int rows = number_of_sample / NUMBER_OF_ELEMENTS_IN_A_ROW;
+	printf("cols : %d , rows : %d \n", cols, rows);
+	if (fp == NULL) {
+		fprintf(stderr, "file no exist!!! \n");
+		exit(1);
+	}
+	else {
+		for (i = 0; i < rows; ++i) {
+			for (j = 0; j < cols; ++j) {
+				fscanf(fp, "%f", &tmp);
+				audio_signal[i * cols + j] = tmp;
+			}
+		}
+	}
+	fclose(fp);
+	return audio_signal;
 }

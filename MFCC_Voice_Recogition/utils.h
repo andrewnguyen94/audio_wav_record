@@ -46,4 +46,7 @@ hyper_vector getFrames(struct SIGNAL a);
 COMPLEX *DFT(hyper_vector a,  int pointFFT);
 float HammingWindow(float a, int frameLength);
 void error(char *err);
+int find_arg(int argc, char* argv[], char *arg);
+
+
 #endif

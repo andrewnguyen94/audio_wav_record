@@ -6,6 +6,7 @@
 -------------------------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "portaudio.h"
 
 /*defines, constants
@@ -16,6 +17,7 @@
 #define FRAMES_PER_BUFFER (1024)
 #define NUM_SECONDS     (5)
 #define NUM_CHANNELS    (1)
+#define NUMBER_OF_ELEMENTS_IN_A_ROW		(100)
 
 #define DITHER_FLAG     (0) /**/
 
@@ -52,10 +54,12 @@ typedef enum KEYWORDS {
 -------------------------------------------
 -------------------------------------------*/
 
-SAMPLE *get_audio_signal_from_source(int *size);
+SAMPLE *get_audio_signal_from_source();
 void record_audio_to_database();
-char *get_name_of_new_file();
+char *get_name_of_new_file(char *keyword, char *numerical_order);
 KEYWORDS get_key_word(int key);
+int get_number_of_sample_in_record();
+SAMPLE* read_audio_signal_from_file(char *path);
 
 
 

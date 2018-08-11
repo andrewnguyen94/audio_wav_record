@@ -4,8 +4,8 @@
 
 int main(int argc, char **argv)
 {
-	int size;
-	SAMPLE *audio_signal = get_audio_signal_from_source(&size);
+	//int size;
+	/*SAMPLE *audio_signal = get_audio_signal_from_source(&size);
 
 	SIGNAL a = setSignal(audio_signal,size);
 	
@@ -17,9 +17,11 @@ int main(int argc, char **argv)
 	for (int i = 0; i < frames.row; i++) {
 		for (int j = 0; j < 257; j++)
 			printf("%f + i * %f   ", fft[i * 257 + j].real, fft[i * 257 + j].img);
+	}*/
+	int record = find_arg(argc, argv, "-record");
+	if (record) {
+		record_audio_to_database();
 	}
-	
-	getch();
 	return 1;
 
 }
