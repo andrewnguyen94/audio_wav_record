@@ -1,13 +1,15 @@
 ﻿  utils.c
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(18): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(19): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(20): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(37): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(49): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(50): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(66): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(112): warning C4474: 'fprintf' : too many arguments passed for format string
-  d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(112): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(33): warning C4715: 'DFT': not all control paths return a value
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(16): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(17): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(18): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(35): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(47): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(48): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(74): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(129): warning C4474: 'fprintf' : too many arguments passed for format string
+  d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(129): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+  main.c
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(22): warning C4013: 'getch' undefined; assuming extern returning int
+  Generating Code...
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.pdb (Partial PDB)

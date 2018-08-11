@@ -1,35 +1,33 @@
 ﻿#include "utils.h"
 
-struct COMPLEX ** DFT(SAMPLE **frames,int num_frame, int frame_length, int pointFFT)
+COMPLEX * DFT(hyper_vector frame, int pointFFT)
 {
 	float temp, real = 0, img = 0;
 	
-	struct COMPLEX ** fft = malloc(sizeof(struct COMPLEX*) * num_frame);
-	for (int i = 0; i < pointFFT / 2 + 1; i++)
-		fft[i] = malloc(sizeof(struct COMPLEX*)*(pointFFT / 2 + 1));
+	COMPLEX *fft = malloc(sizeof(COMPLEX) * frame.row * (pointFFT / 2 + 1));
 
-
-	for (int i = 0; i < num_frame; i++) {
+	system("cls");
+	for (int i = 0; i < frame.row; i++) {
 		for (int k = 0; k < pointFFT / 2 + 1; k++)
 		{
-			for (int n = 0; n < frame_length; n++)
+			for (int n = 0; n < frame.col; n++)
 			{
-				double term = -2 * PI * (k + 1) * (n + 1) / frame_length;
-				temp = frames[i][n] * HammingWindow(n, frame_length);
+				double term = -2 * PI * (k + 1) * (n + 1) / frame.col;
+				temp = frame.data[i * frame.col + n] * HammingWindow(n, frame.col);
 				real += temp * cos(term);
 				img += temp * sin(term);
 			}
-			fft[i][k].real = real;
-			fft[i][k].img = img;
+			fft[i* pointFFT / 2 + k].real = real;
+			fft[i* pointFFT / 2 + k].img = img;
+
 			real = img = 0;
 		}
-
-		//de-allocate
-		for (int i = 0; i < frame_length; i++)
-			free(frames[i]);
-		free(frames);
-		return fft;
+		
 	}
+	//de-allocate
+	free(frame.data);
+
+	return fft;
 }
 
 float HammingWindow(float a, int frameLength)
@@ -42,9 +40,9 @@ int getLength(SAMPLE * a)
 	return sizeof(a) / sizeof(a[0]);
 }
 
-struct SIGNAL setSignal(SAMPLE * a,int size)
+SIGNAL setSignal(SAMPLE * a,int size)
 {
-	struct SIGNAL temp;
+	SIGNAL temp;
 	temp.raw_signal = a;
 	temp.frame_length = SAMPLE_RATE*0.025;
 	temp.step_lengh = SAMPLE_RATE*0.01;
@@ -52,7 +50,17 @@ struct SIGNAL setSignal(SAMPLE * a,int size)
 	return temp;
 }
 
-SAMPLE ** getFrames(struct SIGNAL a)
+hyper_vector setHVector(SAMPLE * a, int col, int row, int dim)
+{
+	hyper_vector temp_vector;
+	temp_vector.col = col;
+	temp_vector.row = row;
+	temp_vector.dim = dim;
+	temp_vector.data = a;
+	return temp_vector;
+}
+
+hyper_vector getFrames(SIGNAL a)
 {
 	int signal_len = a.signal_length;
 	int frame_len = a.frame_length;
@@ -81,30 +89,39 @@ SAMPLE ** getFrames(struct SIGNAL a)
 	int index = 0;
 	int dem1 = 0, dem2 = 0;
 	int temp = frame_step;
-	SAMPLE **frames = (SAMPLE**)malloc(sizeof(SAMPLE*) * a.num_frame);
-	for (int i = 0; i < a.frame_length + 1; i++){
-		*(frames + i) = (SAMPLE*)malloc(sizeof(SAMPLE)*a.frame_length);
-		frames[i] = 0;
+
+	SAMPLE *frames = (SAMPLE*)malloc(sizeof(SAMPLE) * a.num_frame * a.frame_length);
+
+	for (int i = 0; i < a.num_frame; i++){
+		for (int j = 0; j < frame_len; j++)
+			frames[i * frame_len + j] = 0;
 	}
+	/*system("cls");
+	float temp12;*/
 	while (index < a.num_frame)
 	{
 		if (index == 0)                 //frame dau tien
 			for (int i = 0; i < frame_len; i++)
 			{
-				frames[index][i] = a.raw_signal[i];
+				frames[index * frame_len + i] = a.raw_signal[i];
+				/*printf("%f  ", frames[index * frame_len + i]);*/
 			}
 		else                          //cac frames con lai, framestep->(framelen + framestep)...
 		{
 			for (int i = temp; i < temp + frame_len; i++)
 			{
-				frames[index][dem1++] = a.raw_signal[i];
+				
+				frames[index * frame_len + dem1++] = a.raw_signal[i];
+				/*printf("%f  ", temp12);*/
 			}
 			temp += frame_step;
 			dem1 = 0;
 		}
 		index++;
 	}
-	return frames;
+
+	
+	return setHVector(frames,frame_len,a.num_frame,frame_len*a.num_frame);
 }
 
 void error(char *err)
