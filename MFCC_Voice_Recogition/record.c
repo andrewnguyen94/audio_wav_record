@@ -1,6 +1,6 @@
 #include "record.h"
 
-SAMPLE * get_audio_signal_from_source()
+SAMPLE * get_audio_signal_from_source(int *size)
 {
 	PaStreamParameters inputParameters, outputParameters;
 	PaStream *stream;
@@ -17,6 +17,7 @@ SAMPLE * get_audio_signal_from_source()
 	totalFrames = NUM_SECONDS * SAMPLE_RATE; /* Record for a few seconds. */
 	numSamples = totalFrames * NUM_CHANNELS;
 
+	*size = numSamples;
 	numBytes = numSamples * sizeof(SAMPLE);
 	recordedSamples = (SAMPLE *) malloc(numBytes);
 	if (!recordedSamples)
@@ -94,7 +95,8 @@ void check_continue(char *y_n) {
 
 void record_audio_to_database()
 {
-	SAMPLE *audio_singal = get_audio_signal_from_source();
+	int size;
+	SAMPLE *audio_singal = get_audio_signal_from_source(&size);
 	int number_of_sample = get_number_of_sample_in_record();
 	char *keyword = (char *)malloc(sizeof(char) * 5);
 	char *numerical_order = (char *)malloc(sizeof(char) * 5);

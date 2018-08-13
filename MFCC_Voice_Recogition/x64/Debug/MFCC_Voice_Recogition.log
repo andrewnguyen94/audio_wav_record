@@ -1,7 +1,20 @@
-﻿  record.c
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(73): warning C4047: 'return': 'SAMPLE *' differs in levels of indirection from 'int'
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'max': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'average': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'val': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(5): warning C4101: 'outputParameters': unreferenced local variable
-  MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe
+﻿  utils.c
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(5): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(10): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(26): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(27): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(28): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(45): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(61): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(70): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(101): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(113): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(114): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(140): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(195): warning C4474: 'fprintf' : too many arguments passed for format string
+  c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(195): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(97): warning C4716: 'filterbank': must return a value
+  MFCC_Voice_Recogition.vcxproj -> C:\Users\Tu Nguyen\Desktop\MFCC_Voice_Recognition\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
