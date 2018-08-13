@@ -34,10 +34,16 @@ typedef struct hyper_vector {
 	SAMPLE *data;
 }hyper_vector;
 
+typedef struct filter_bank {
+	int data;
+	int nfilt;
+	int filt_len;
+}filter_bank;
 /*functions
 ------------------------------------------
 ------------------------------------------*/
 
+filter_bank getFBank(float *fbank, int nfilt, int filt_len);
 int getLength(SAMPLE *a);
 SIGNAL setSignal(SAMPLE *a, int size);
 hyper_vector setHVector(SAMPLE *a, int col, int row, int dim);
@@ -45,7 +51,7 @@ hyper_vector setHVector(SAMPLE *a, int col, int row, int dim);
 hyper_vector getFrames(struct SIGNAL a);
 COMPLEX *DFT(hyper_vector a, int pointFFT);
 float magnitude(float real, float img);
-float* filterbank(int nfilt, int NFFT);
+filter_bank filterbank(int nfilt, int NFFT);
 float HammingWindow(float a, int frameLength);
 void error(char *err);
 

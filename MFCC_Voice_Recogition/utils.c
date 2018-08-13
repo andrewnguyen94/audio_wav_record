@@ -45,7 +45,7 @@ float magnitude(float real, float img)
 	return sqrt(real*real + img * img);
 }
 
-float * filterbank(int nfilt, int NFFT)
+filter_bank filterbank(int nfilt, int NFFT)
 {
 	int lowfreq_mel = 0;                    //cận dưới thang Mel
 	float highfreq_mel = (float)hz2mel(SAMPLE_RATE / 2);   //Cận trên
@@ -94,6 +94,8 @@ float * filterbank(int nfilt, int NFFT)
 			fbank[m - 1 * a + k] = (bin[m + 1] - k) / (bin[m + 1] - bin[m]);
 		}
 	}
+
+	return getFBank(fbank,nfilt,a);
 }
 
 float HammingWindow(float a, int frameLength)
@@ -105,6 +107,15 @@ int getLength(SAMPLE * a)
 {
 	return sizeof(a) / sizeof(a[0]);
 }
+
+filter_bank getFBank(float *fbank, int nfilt, int filt_len) {
+	filter_bank temp;
+	temp.data = fbank;
+	temp.nfilt = nfilt;
+	temp.filt_len = filt_len;
+	return temp;
+}
+
 
 SIGNAL setSignal(SAMPLE * a, int size)
 {

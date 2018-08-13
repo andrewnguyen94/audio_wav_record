@@ -10,11 +10,11 @@ c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_vo
 c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(70): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(101): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(113): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(114): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(140): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(195): warning C4474: 'fprintf' : too many arguments passed for format string
-  c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(195): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(97): warning C4716: 'filterbank': must return a value
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(103): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(113): warning C4047: '=': 'int' differs in levels of indirection from 'float *'
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(124): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(125): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(151): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(206): warning C4474: 'fprintf' : too many arguments passed for format string
+  c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(206): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
   MFCC_Voice_Recogition.vcxproj -> C:\Users\Tu Nguyen\Desktop\MFCC_Voice_Recognition\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
