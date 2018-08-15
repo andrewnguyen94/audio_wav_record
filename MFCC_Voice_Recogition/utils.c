@@ -1,5 +1,6 @@
 ﻿#include "utils.h"
 
+/////////////////////measuring scale/////////////////////////////////
 float mel2hz(float mel)
 {
 	return (700 * (exp(mel / 1125) - 1));
@@ -10,13 +11,62 @@ float hz2mel(float hz)
 	return (2595 * log10(1 + hz / 700));
 }
 
-COMPLEX * DFT(hyper_vector frame, int pointFFT)
+/////////////////////////////////Matrix Processing////////////////////////////
+hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2)
+{
+	float* matrix= (float*)malloc(sizeof(float)*matrix1.row*matrix2.col);
+	int r1 = matrix1.row, c1 = matrix1.col;
+	int r2 = matrix2.row, c2 = matrix2.col;
+	int i, j, k;
+	matrix = (float*)malloc(sizeof(float)*r1*c2);
+
+	for (i = 0; i < r1; i++)
+		for (j = 0; j < c2; j++)
+			matrix[i*c2 + j] = 0;
+
+	for (i = 0; i < r1; i++)    
+	{
+		for (j = 0; j < c2; j++)    
+		{
+			float sum = 0;
+			for (k = 0; k < c1; k++)
+				sum = sum + matrix1.data[i*c1 + k] * matrix2.data[k*c2 + j];
+			matrix[i*c2 + j] = sum;
+			printf("%f ", matrix[i*c2 + j]);
+		}
+		printf("\n");
+	}
+	return setHVector(matrix,c2,r1,c2*r1);
+}
+
+hyper_vector transpose(hyper_vector matrix)
+{
+	int r = matrix.col;
+	int c = matrix.row;
+	float* transposeMatrix = (float*)malloc(sizeof(float)*c*r);
+	int i, j;
+
+	for (int i = 0; i < r; i++)
+	{
+		for (int j = 0; j < c; j++)
+		{
+			transposeMatrix[i*c +j] = matrix.data[j*r +i];
+			printf("%f ", transposeMatrix[i*c + j]);
+		}
+		printf("\n");
+	}
+	
+	return setHVector(transposeMatrix,c,r,c*r);
+}
+
+/////////////////////////////////MFCCs////////////////////////////////////////
+hyper_vector DFT_PowerSpectrum(hyper_vector frame, int pointFFT)
 {
 	float temp, real = 0, img = 0;
 
-	COMPLEX *fft = malloc(sizeof(COMPLEX) * frame.row * (pointFFT / 2 + 1));
+	hyper_vector pow_spectrum;
+	pow_spectrum.data= malloc(sizeof(SAMPLE) * frame.row * (pointFFT / 2 + 1));
 
-	system("cls");
 	for (int i = 0; i < frame.row; i++) {
 		for (int k = 0; k < pointFFT / 2 + 1; k++)
 		{
@@ -27,9 +77,8 @@ COMPLEX * DFT(hyper_vector frame, int pointFFT)
 				real += temp * cos(term);
 				img += temp * sin(term);
 			}
-			fft[i* pointFFT / 2 + k].real = real;
-			fft[i* pointFFT / 2 + k].img = img;
-
+			temp = magnitude(real, img);
+			pow_spectrum.data[i* (pointFFT / 2 +1) + k] = temp*temp/ frame.col;
 			real = img = 0;
 		}
 
@@ -37,7 +86,10 @@ COMPLEX * DFT(hyper_vector frame, int pointFFT)
 	//de-allocate
 	free(frame.data);
 
-	return fft;
+	pow_spectrum.col = pointFFT / 2 + 1;
+	pow_spectrum.row = frame.row;
+
+	return pow_spectrum;
 }
 
 float magnitude(float real, float img)

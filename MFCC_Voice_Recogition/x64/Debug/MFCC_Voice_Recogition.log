@@ -1,20 +1,6 @@
-﻿  utils.c
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(5): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(10): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(26): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(27): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(28): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(45): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(61): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(70): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(103): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(113): warning C4047: '=': 'int' differs in levels of indirection from 'float *'
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(124): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(125): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(151): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(206): warning C4474: 'fprintf' : too many arguments passed for format string
-  c:\users\tu nguyen\desktop\mfcc_voice_recognition\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(206): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-  MFCC_Voice_Recogition.vcxproj -> C:\Users\Tu Nguyen\Desktop\MFCC_Voice_Recognition\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
+﻿  main.c
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(30): warning C4047: 'function': 'SAMPLE *' differs in levels of indirection from 'int'
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(30): warning C4024: 'setHVector': different types for formal and actual parameter 1
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(31): warning C4013: 'getch' undefined; assuming extern returning int
+  MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
+  MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.pdb (Partial PDB)

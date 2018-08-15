@@ -49,7 +49,8 @@ SIGNAL setSignal(SAMPLE *a, int size);
 hyper_vector setHVector(SAMPLE *a, int col, int row, int dim);
 
 hyper_vector getFrames(struct SIGNAL a);
-COMPLEX *DFT(hyper_vector a, int pointFFT);
+//COMPLEX *DFT(hyper_vector a, int pointFFT);
+hyper_vector DFT_PowerSpectrum(hyper_vector a, int pointFFT);
 float magnitude(float real, float img);
 filter_bank filterbank(int nfilt, int NFFT);
 float HammingWindow(float a, int frameLength);
@@ -57,5 +58,8 @@ void error(char *err);
 
 float hz2mel(float hz);
 float mel2hz(float hz);
+
+hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2);
+hyper_vector transpose(hyper_vector matrix);
 
 #endif
