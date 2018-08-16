@@ -24,7 +24,7 @@ typedef struct SIGNAL {
 typedef struct COMPLEX {
 	float img;
 	float real;
-	float magnitude;	
+	float magnitude;
 }COMPLEX;
 
 typedef struct hyper_vector {
@@ -34,19 +34,32 @@ typedef struct hyper_vector {
 	SAMPLE *data;
 }hyper_vector;
 
+typedef struct filter_bank {
+	int data;
+	int nfilt;
+	int filt_len;
+}filter_bank;
 /*functions
 ------------------------------------------
 ------------------------------------------*/
 
+filter_bank getFBank(float *fbank, int nfilt, int filt_len);
 int getLength(SAMPLE *a);
-SIGNAL setSignal(SAMPLE *a,int size);
+SIGNAL setSignal(SAMPLE *a, int size);
 hyper_vector setHVector(SAMPLE *a, int col, int row, int dim);
 
 hyper_vector getFrames(struct SIGNAL a);
-COMPLEX *DFT(hyper_vector a,  int pointFFT);
+//COMPLEX *DFT(hyper_vector a, int pointFFT);
+hyper_vector DFT_PowerSpectrum(hyper_vector a, int pointFFT);
+float magnitude(float real, float img);
+filter_bank filterbank(int nfilt, int NFFT);
 float HammingWindow(float a, int frameLength);
 void error(char *err);
-int find_arg(int argc, char* argv[], char *arg);
 
+float hz2mel(float hz);
+float mel2hz(float hz);
+
+hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2);
+hyper_vector transpose(hyper_vector matrix);
 
 #endif

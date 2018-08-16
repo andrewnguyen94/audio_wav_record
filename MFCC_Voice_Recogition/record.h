@@ -54,7 +54,7 @@ typedef enum KEYWORDS {
 -------------------------------------------
 -------------------------------------------*/
 
-SAMPLE *get_audio_signal_from_source();
+SAMPLE *get_audio_signal_from_source(int *size);
 void record_audio_to_database();
 char *get_name_of_new_file(char *keyword, char *numerical_order);
 KEYWORDS get_key_word(int key);

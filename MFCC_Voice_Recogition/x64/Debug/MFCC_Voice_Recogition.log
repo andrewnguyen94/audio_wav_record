@@ -1,7 +1,6 @@
-﻿  record.c
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(73): warning C4047: 'return': 'SAMPLE *' differs in levels of indirection from 'int'
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'max': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'average': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'val': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(5): warning C4101: 'outputParameters': unreferenced local variable
-  MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe
+﻿  main.c
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(30): warning C4047: 'function': 'SAMPLE *' differs in levels of indirection from 'int'
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(30): warning C4024: 'setHVector': different types for formal and actual parameter 1
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(31): warning C4013: 'getch' undefined; assuming extern returning int
+  MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
+  MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.pdb (Partial PDB)
