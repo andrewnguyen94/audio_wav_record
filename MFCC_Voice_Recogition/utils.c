@@ -14,7 +14,7 @@ float hz2mel(float hz)
 /////////////////////////////////Matrix Processing////////////////////////////
 hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2)
 {
-	float* matrix= (float*)malloc(sizeof(float)*matrix1.row*matrix2.col);
+	float* matrix;
 	int r1 = matrix1.row, c1 = matrix1.col;
 	int r2 = matrix2.row, c2 = matrix2.col;
 	int i, j, k;
@@ -24,19 +24,19 @@ hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2)
 		for (j = 0; j < c2; j++)
 			matrix[i*c2 + j] = 0;
 
-	for (i = 0; i < r1; i++)    
+	for (i = 0; i < r1; i++)
 	{
-		for (j = 0; j < c2; j++)    
+		for (j = 0; j < c2; j++)
 		{
 			float sum = 0;
 			for (k = 0; k < c1; k++)
 				sum = sum + matrix1.data[i*c1 + k] * matrix2.data[k*c2 + j];
-			matrix[i*c2 + j] = sum;
-			printf("%f ", matrix[i*c2 + j]);
+			matrix[i*c2 + j] = 20 * log10(sum);
+			//printf("%f ", matrix[i*c2 + j]);
 		}
-		printf("\n");
+		//printf("\n");
 	}
-	return setHVector(matrix,c2,r1,c2*r1);
+	return setHVector(matrix, c2, r1, c2*r1);
 }
 
 hyper_vector transpose(hyper_vector matrix)
@@ -50,14 +50,93 @@ hyper_vector transpose(hyper_vector matrix)
 	{
 		for (int j = 0; j < c; j++)
 		{
-			transposeMatrix[i*c +j] = matrix.data[j*r +i];
-			printf("%f ", transposeMatrix[i*c + j]);
+			transposeMatrix[i*c + j] = matrix.data[j*r + i];
+			//printf("%f ", transposeMatrix[i*c + j]);
+		}
+		//printf("\n");
+	}
+
+	return setHVector(transposeMatrix, c, r, c*r);
+}
+
+////////////////////////////////////////////////////////////////
+
+SIGNAL silence_trim(SIGNAL a)
+{
+	int end, start,dem=0;
+	int size;
+	SAMPLE *temp = reverse(a);
+
+	start = detect_silence(a.raw_signal, a.signal_length);
+	end = detect_silence(temp, a.signal_length);
+	size = a.signal_length - start - end;
+
+	float *sample = (float*)malloc(sizeof(float)*size);
+	
+	for (int i = start; i < a.signal_length - end; i++) {
+		sample[dem] = a.raw_signal[i];
+		dem++;
+	}
+
+	free(temp);
+	return setSignal(sample, size);
+}
+
+int detect_silence(SAMPLE* a,int signal_len)
+{
+	int trim_ms = 0; // ms
+	int chunk_size = 10*16;
+	while(dBFS(a, trim_ms, chunk_size, -50) && trim_ms < signal_len) 
+	{
+		trim_ms += chunk_size;
+	}
+	return trim_ms;
+}
+
+int dBFS(SAMPLE* raw_signal, int trim_ms, int chunk_size, int silence_threshold) {
+	float sum = 0;
+	for (int i = trim_ms; i < trim_ms + chunk_size; i++) {
+		sum += raw_signal[i] * raw_signal[i];
+	}
+	sum = sqrt(sum / (chunk_size));
+	sum = 20 * log10(sum / 32767);
+	if (sum < silence_threshold)
+		return 1;
+	return 0;
+}
+
+SAMPLE *reverse(SIGNAL a) {
+	SAMPLE t;
+	SAMPLE *sample = (SAMPLE*)malloc(sizeof(SAMPLE)*a.signal_length);
+	for (int c = a.signal_length-1; c >=0 ; c--) {
+		sample[c] = a.raw_signal[c];
+	}
+	return sample;
+}
+//////////////////////////////////////////////////////
+hyper_vector DCT(hyper_vector a, int num_ceps) {
+	int i, j, k;
+	int len = a.col;
+	float *dct = (float*)malloc(sizeof(float)*a.row*num_ceps);
+	float *temp = (float*)malloc(sizeof(float)*len);
+	float factor = PI / a.col;
+
+	for (k = 0; k < a.row; k++) {
+		for (i = 0; i < len; i++) {
+			float sum = 0;
+			for (j = 0; j < len; j++)
+				sum += a.data[k*len + j] * cos((j + 0.5) * i * factor);
+			temp[i] = sum;
+		}
+		for (j = 0; j < num_ceps; j++) {
+			dct[i*num_ceps + j] = temp[i];
+			printf("%.4f  ", dct[i*num_ceps + j]);
 		}
 		printf("\n");
 	}
-	
-	return setHVector(transposeMatrix,c,r,c*r);
+	return setHVector(dct, num_ceps, a.row, 2);
 }
+
 
 /////////////////////////////////MFCCs////////////////////////////////////////
 hyper_vector DFT_PowerSpectrum(hyper_vector frame, int pointFFT)
@@ -65,7 +144,7 @@ hyper_vector DFT_PowerSpectrum(hyper_vector frame, int pointFFT)
 	float temp, real = 0, img = 0;
 
 	hyper_vector pow_spectrum;
-	pow_spectrum.data= malloc(sizeof(SAMPLE) * frame.row * (pointFFT / 2 + 1));
+	pow_spectrum.data = malloc(sizeof(SAMPLE) * frame.row * (pointFFT / 2 + 1));
 
 	for (int i = 0; i < frame.row; i++) {
 		for (int k = 0; k < pointFFT / 2 + 1; k++)
@@ -78,7 +157,7 @@ hyper_vector DFT_PowerSpectrum(hyper_vector frame, int pointFFT)
 				img += temp * sin(term);
 			}
 			temp = magnitude(real, img);
-			pow_spectrum.data[i* (pointFFT / 2 +1) + k] = temp*temp/ frame.col;
+			pow_spectrum.data[i* (pointFFT / 2 + 1) + k] = temp*temp / frame.col;
 			real = img = 0;
 		}
 
@@ -101,9 +180,9 @@ filter_bank filterbank(int nfilt, int NFFT)
 {
 	int lowfreq_mel = 0;                    //cận dưới thang Mel
 	float highfreq_mel = (float)hz2mel(SAMPLE_RATE / 2);   //Cận trên
-	float *melpoint = (float*)malloc(sizeof(float)*nfilt + 2);
-	float *hzpoint = (float*)malloc(sizeof(float)*nfilt + 2);
-	float *bin = (float*)malloc(sizeof(float)*nfilt + 2);           //FFT bins được tính theo công thức (NFFT + 1) * hzpoints / SAMPLE_RATE
+	float *melpoint = (float*)malloc(sizeof(float)*(nfilt + 2));
+	float *hzpoint = (float*)malloc(sizeof(float)*(nfilt + 2));
+	float *bin = (float*)malloc(sizeof(float)*(nfilt + 2));           //FFT bins được tính theo công thức (NFFT + 1) * hzpoints / SAMPLE_RATE
 
 	float step = (highfreq_mel - lowfreq_mel) / (nfilt + 2);       //bước chuyển tuyến tính thang Mel
 	for (int i = 0; i < nfilt + 2; i++)
@@ -128,7 +207,7 @@ filter_bank filterbank(int nfilt, int NFFT)
 	}
 
 	int a = (int)floor((1.0 * NFFT / 2) + 1);
-	float *fbank = (float*)calloc(nfilt* a, sizeof(float));       //26 filter, moi filter chi co 1 diem co gia tri bang 1 (chinh la tan so dc chia theo thang tuyen tinh)           
+	float* fbank = (float*)calloc(nfilt* a, sizeof(float));       //26 filter, moi filter chi co 1 diem co gia tri bang 1 (chinh la tan so dc chia theo thang tuyen tinh)           
 
 
 																  //tính filterbanks theo công thức.
@@ -139,15 +218,15 @@ filter_bank filterbank(int nfilt, int NFFT)
 		int f_m_plus_1 = (int)bin[m + 1];       //kết thúc của 1 filter
 		for (int k = f_m_minus_1; k < f_m; k++)     //len dan cho den khi dat cuc dai fbank (0 - 1)
 		{
-			fbank[m - 1 * a + k] = (k - bin[m - 1]) / (bin[m] - bin[m - 1]);     //chia nguyen -> chi bang 1 tai diem f_m (1 so tan so xac dinh)
+			fbank[(m - 1)* a + k] = (k - bin[m - 1]) / (bin[m] - bin[m - 1]);     //chia nguyen -> chi bang 1 tai diem f_m (1 so tan so xac dinh)
 		}
 		for (int k = f_m; k < f_m_plus_1; k++)      //chu y de toi uu
 		{
-			fbank[m - 1 * a + k] = (bin[m + 1] - k) / (bin[m + 1] - bin[m]);
+			fbank[(m - 1)* a + k] = (bin[m + 1] - k) / (bin[m + 1] - bin[m]);
 		}
 	}
 
-	return getFBank(fbank,nfilt,a);
+	return getFBank(fbank, nfilt, a);
 }
 
 float HammingWindow(float a, int frameLength)

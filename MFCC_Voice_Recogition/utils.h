@@ -12,6 +12,8 @@
 ------------------------------------------*/
 
 #define PI 3.14159265359
+#define false 0
+#define true 1
 
 typedef struct SIGNAL {
 	SAMPLE *raw_signal;
@@ -35,7 +37,7 @@ typedef struct hyper_vector {
 }hyper_vector;
 
 typedef struct filter_bank {
-	int data;
+	float *data;
 	int nfilt;
 	int filt_len;
 }filter_bank;
@@ -49,8 +51,10 @@ SIGNAL setSignal(SAMPLE *a, int size);
 hyper_vector setHVector(SAMPLE *a, int col, int row, int dim);
 
 hyper_vector getFrames(struct SIGNAL a);
-//COMPLEX *DFT(hyper_vector a, int pointFFT);
+//COMPLEX *DFT(hyper_vector a, int pointFFT
+hyper_vector DCT(hyper_vector a, int num_ceps);
 hyper_vector DFT_PowerSpectrum(hyper_vector a, int pointFFT);
+
 float magnitude(float real, float img);
 filter_bank filterbank(int nfilt, int NFFT);
 float HammingWindow(float a, int frameLength);
@@ -62,4 +66,6 @@ float mel2hz(float hz);
 hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2);
 hyper_vector transpose(hyper_vector matrix);
 
+SIGNAL silence_trim(SIGNAL a);
+SAMPLE *reverse(SIGNAL a);
 #endif
