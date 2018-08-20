@@ -122,12 +122,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="gemm.h" />
     <ClInclude Include="record.h" />
+    <ClInclude Include="svm.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gemm.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="record.c" />
+    <ClCompile Include="svm.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
