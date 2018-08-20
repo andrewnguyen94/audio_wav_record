@@ -29,6 +29,7 @@ void gemm_nn(int M, int N, int K, float ALPHA, float * A, int lda, float * B, in
 	}
 }
 
+#ifdef USE_MULTI_THREAD
 void gemm_multithread(int TA, int TB, int M, int N, int K, float ALPHA, float * A, int lda, float * B, int ldb, float BETA, float * C, int ldc, int id, int nb)
 {
 	gemm_detail_multithread(TA, TB, M, N, K, ALPHA, A, lda, B, ldb, BETA, C, ldc, id, nb);
@@ -122,3 +123,4 @@ void gemm_nn_multithread(int M, int N, int K, float ALPHA, float * A, int lda, f
 		}
 	}
 }
+#endif //end use_multi_thread
