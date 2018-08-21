@@ -5,35 +5,16 @@
 int main(int argc, char **argv)
 {
 	int is_record = find_args(argc, argv, "-record");
-	/*if (is_record) {
-		record_audio_to_database();
-	}*/
-	int size;
-	SAMPLE *audio_signal = get_audio_signal_from_source(&size);
+	if (is_record) {
+		int is_training = find_args(argc, argv, "-training");
+		int is_testing = find_args(argc, argv, "-testing");
+		record_audio_to_database(is_training, is_testing);
+	}
+	int size = get_number_of_sample_in_record();
+	char *path = (char *)"./data/0_2.txt";
+	SAMPLE* audio_signal = get_audio_signal_from_source(path);
+	hyper_vector feature_vector = get_feature_vector_from_signal(audio_signal, size);
 
-	SIGNAL a = setSignal(audio_signal,size);
-	//a = silence_trim(a);
 
-	hyper_vector frames = getFrames(a);
-
-	hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
-
-	//for (int i = 0; i < frames.row; i++) {
-	//	for (int j = 0; j < 257; j++)
-	//		printf("pow: %.9f\n", power_spec.data[i*257 +j]);
-	//}
-
-	filter_bank fbanks = filterbank(26, 512);
-
-	//
-	//hyper_vector a;
-	//a.data = temp;
-	//a.col = 9;
-	//a.row = 0;
-
-	hyper_vector apply = multiply(power_spec, transpose(setHVector(fbanks.data, fbanks.filt_len,fbanks.nfilt,2)));
-	system("cls");
-	apply = DCT(apply, 13);
-	getch();
-
+	return 1;
 }

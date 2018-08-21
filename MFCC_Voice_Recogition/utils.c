@@ -125,6 +125,36 @@ int find_args(int argc, char * argv[], char * arg)
 	}
 	return 0;
 }
+hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
+{
+	SIGNAL a = setSignal(audio_signal, size);
+	hyper_vector frames = getFrames(a);
+
+	hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
+
+	filter_bank fbanks = filterbank(26, 512);
+
+	hyper_vector apply = multiply(power_spec, transpose(setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 2)));
+	system("cls");
+	apply = DCT(apply, 13);
+	return apply;
+}
+
+void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
+{
+	char *path = (char *)"./feature_vector/";
+	size_t len = strlen(name);
+	char *absolute_path = (char *)malloc(sizeof(char) * (len + 18));
+	strcpy(absolute_path, path);
+	strcat();
+}
+
+char * get_name_file_from_path(char * path)
+{
+
+	return NULL;
+}
+
 //////////////////////////////////////////////////////
 hyper_vector DCT(hyper_vector a, int num_ceps) {
 	int i, j, k;

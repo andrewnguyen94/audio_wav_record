@@ -75,10 +75,10 @@ error:
 	return recordedSamples;
 }
 
-void check_continue(char *y_n) {
+void check_continue(char *y_n, int is_training, int is_testing) {
 	if (0 == strcmp(y_n, "y")) {
 		free(y_n);
-		record_audio_to_database();
+		record_audio_to_database(is_training, is_testing);
 	}
 	else if (0 == strcmp(y_n, "n")) {
 		free(y_n);
@@ -93,7 +93,7 @@ void check_continue(char *y_n) {
 	}
 }
 
-void record_audio_to_database()
+void record_audio_to_database(int is_training, int is_testing)
 {
 	int size;
 	SAMPLE *audio_singal = get_audio_signal_from_source(&size);
@@ -123,7 +123,7 @@ void record_audio_to_database()
 	free(audio_singal);
 	printf("Do you wanna continue to record? (y/n) \n");
 	scanf("%s", y_n);
-	check_continue(y_n);	
+	check_continue(y_n, is_training, is_testing);	
 }
 
 char * get_name_of_new_file(char *keyword, char *numerical_order)

@@ -70,4 +70,8 @@ SIGNAL silence_trim(SIGNAL a);
 SAMPLE *reverse(SIGNAL a);
 
 int find_args(int argc, char* argv[], char *arg);
+hyper_vector get_feature_vector_from_signal(SAMPLE *audio_signal, int size);
+void write_feature_vector_to_database(hyper_vector feature_vector, char *name);
+char *get_name_file_from_path(char *path);
+
 #endif
