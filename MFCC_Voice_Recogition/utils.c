@@ -75,9 +75,11 @@ SIGNAL silence_trim(SIGNAL a)
 	
 	for (int i = start; i < a.signal_length - end; i++) {
 		sample[dem] = a.raw_signal[i];
+		printf("%f", sample[dem]);
 		dem++;
+		
 	}
-
+	getch();
 	free(temp);
 	return setSignal(sample, size);
 }
@@ -108,23 +110,25 @@ int dBFS(SAMPLE* raw_signal, int trim_ms, int chunk_size, int silence_threshold)
 SAMPLE *reverse(SIGNAL a) {
 	SAMPLE t;
 	SAMPLE *sample = (SAMPLE*)malloc(sizeof(SAMPLE)*a.signal_length);
+	int dem = 0;
 	for (int c = a.signal_length-1; c >=0 ; c--) {
-		sample[c] = a.raw_signal[c];
+		sample[dem] = a.raw_signal[c];
+		dem++;
 	}
 	return sample;
 }
-int find_args(int argc, char * argv[], char * arg)
-{
-	int i;
-	for (i = 0; i < argc; ++i) {
-		if (!argv[i]) continue;
-		if (0 == strcmp(argv[i], arg)) {
-			del_arg(argc, argv, i);
-			return 1;
-		}
-	}
-	return 0;
-}
+//int find_args(int argc, char * argv[], char * arg)
+//{
+//	int i;
+//	for (i = 0; i < argc; ++i) {
+//		if (!argv[i]) continue;
+//		if (0 == strcmp(argv[i], arg)) {
+//			del_arg(argc, argv, i);
+//			return 1;
+//		}
+//	}
+//	return 0;
+//}
 //////////////////////////////////////////////////////
 hyper_vector DCT(hyper_vector a, int num_ceps) {
 	int i, j, k;

@@ -69,5 +69,5 @@ hyper_vector transpose(hyper_vector matrix);
 SIGNAL silence_trim(SIGNAL a);
 SAMPLE *reverse(SIGNAL a);
 
-int find_args(int argc, char* argv[], char *arg);
+//int find_args(int argc, char* argv[], char *arg);
 #endif

@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv)
 {
-	int is_record = find_args(argc, argv, "-record");
+	//int is_record = find_args(argc, argv, "-record");
 	/*if (is_record) {
 		record_audio_to_database();
 	}*/
@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	SAMPLE *audio_signal = get_audio_signal_from_source(&size);
 
 	SIGNAL a = setSignal(audio_signal,size);
-	//a = silence_trim(a);
+	a = silence_trim(a);
 
 	hyper_vector frames = getFrames(a);
 

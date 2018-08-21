@@ -62,9 +62,9 @@ SAMPLE * get_audio_signal_from_source(int *size)
 	err = Pa_CloseStream(stream);
 	if (err != paNoError) goto error;
 
-	//for (int i = 0; i < numSamples; i++) {
-	//	printf(" %f ", recordedSamples[i]);
-	//}
+	for (int i = 0; i < numSamples; i++) {
+		printf(" %f ", recordedSamples[i]);
+	}
 	return recordedSamples;
 error:
 	Pa_Terminate();
