@@ -85,7 +85,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(PORT_AUDIO)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;USE_MULTI_THREAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(PORT_AUDIO)\build\msvc\x64\debug\portaudio_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -123,6 +123,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="gemm.h" />
+    <ClInclude Include="mfcc.h" />
     <ClInclude Include="record.h" />
     <ClInclude Include="svm.h" />
     <ClInclude Include="utils.h" />
@@ -130,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="gemm.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="mfcc.c" />
     <ClCompile Include="record.c" />
     <ClCompile Include="svm.c" />
     <ClCompile Include="utils.c" />

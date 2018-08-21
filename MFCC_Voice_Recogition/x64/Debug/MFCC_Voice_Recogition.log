@@ -1,2 +1,4 @@
-﻿  gemm.c
+﻿  main.c
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\main.c(16): warning C4133: 'function': incompatible types - from 'char *' to 'int *'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\main.c(17): warning C4101: 'feature_vector': unreferenced local variable
   MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "record.h"
+#include "mfcc.h"
 #include "utils.h"
 
 int main(int argc, char **argv)

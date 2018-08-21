@@ -62,9 +62,9 @@ SAMPLE * get_audio_signal_from_source(int *size)
 	err = Pa_CloseStream(stream);
 	if (err != paNoError) goto error;
 
-	//for (int i = 0; i < numSamples; i++) {
-	//	printf(" %f ", recordedSamples[i]);
-	//}
+	for (int i = 0; i < numSamples; i++) {
+		printf(" %f ", recordedSamples[i]);
+	}
 	return recordedSamples;
 error:
 	Pa_Terminate();
@@ -89,7 +89,7 @@ void check_continue(char *y_n, int is_training, int is_testing) {
 		y_n = (char *)malloc(sizeof(char) * 5);
 		printf("wrong answer!!! Reimport answer \n");
 		scanf("%s", y_n);
-		check_continue(y_n);
+		check_continue(y_n, is_training, is_testing);
 	}
 }
 
