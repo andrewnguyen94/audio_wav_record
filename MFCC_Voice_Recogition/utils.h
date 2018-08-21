@@ -15,6 +15,6 @@
 ------------------------------------------*/
 
 void error(char *err);
-//int find_args(int argc, char* argv[], char *arg);
+int find_args(int argc, char* argv[], char *arg);
 
 #endif

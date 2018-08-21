@@ -1,9 +1,5 @@
 ﻿  utils.c
-d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(18): warning C4474: 'fprintf' : too many arguments passed for format string
-  d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(18): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-  svm.c
-  main.c
-d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(37): warning C4013: 'getch' undefined; assuming extern returning int
-  Generating Code...
+d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(17): warning C4474: 'fprintf' : too many arguments passed for format string
+  d:\mfcc_voice_recognition\mfcc_voice_recogition\utils.c(17): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.pdb (Partial PDB)
