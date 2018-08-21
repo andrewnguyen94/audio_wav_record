@@ -21,6 +21,12 @@
     <ClInclude Include="utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="svm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gemm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="record.c">
@@ -30,6 +36,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="svm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gemm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
