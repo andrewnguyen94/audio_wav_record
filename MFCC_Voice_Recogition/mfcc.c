@@ -37,7 +37,7 @@ hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2)
 		}
 		//printf("\n");
 	}
-	return setHVector(matrix, c2, r1, c2*r1);
+	return setHVector(matrix, c2, r1,1);
 }
 
 hyper_vector transpose(hyper_vector matrix)
@@ -57,7 +57,7 @@ hyper_vector transpose(hyper_vector matrix)
 		//printf("\n");
 	}
 
-	return setHVector(transposeMatrix, c, r, c*r);
+	return setHVector(transposeMatrix, c, r, 1);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -76,11 +76,9 @@ SIGNAL silence_trim(SIGNAL a)
 
 	for (int i = start; i < a.signal_length - end; i++) {
 		sample[dem] = a.raw_signal[i];
-		printf("%f", sample[dem]);
 		dem++;
 
 	}
-	getch();
 	free(temp);
 	return setSignal(sample, size);
 }
@@ -89,7 +87,7 @@ int detect_silence(SAMPLE* a, int signal_len)
 {
 	int trim_ms = 0; // ms
 	int chunk_size = 10 * 16;
-	while (dBFS(a, trim_ms, chunk_size, -50) && trim_ms < signal_len)
+	while (dBFS(a, trim_ms, chunk_size, -25) && trim_ms < signal_len)
 	{
 		trim_ms += chunk_size;
 	}
@@ -102,7 +100,7 @@ int dBFS(SAMPLE* raw_signal, int trim_ms, int chunk_size, int silence_threshold)
 		sum += raw_signal[i] * raw_signal[i];
 	}
 	sum = sqrt(sum / (chunk_size));
-	sum = 20 * log10(sum / 32767);
+	sum = 20 * log10(sum);
 	if (sum < silence_threshold)
 		return 1;
 	return 0;
@@ -126,21 +124,26 @@ hyper_vector DCT(hyper_vector a, int num_ceps) {
 	float *dct = (float*)malloc(sizeof(float)*a.row*num_ceps);
 	float *temp = (float*)malloc(sizeof(float)*len);
 	float factor = PI / a.col;
+	float sum;
 
 	for (k = 0; k < a.row; k++) {
 		for (i = 0; i < len; i++) {
-			float sum = 0;
+			sum = 0;
 			for (j = 0; j < len; j++)
 				sum += a.data[k*len + j] * cos((j + 0.5) * i * factor);
 			temp[i] = sum;
 		}
 		for (j = 0; j < num_ceps; j++) {
-			dct[i*num_ceps + j] = temp[i];
-			printf("%.4f  ", dct[i*num_ceps + j]);
+			//if (k == 498) {
+			//	printf("cc ");
+			//}
+			dct[k*num_ceps + j] = temp[j];
+			//printf("%.4f  ", dct[k*num_ceps + j]);
 		}
-		printf("\n");
+		//printf("\n");
 	}
-	return setHVector(dct, num_ceps, a.row, 2);
+	free(temp);
+	return setHVector(dct, num_ceps, a.row, 1);
 }
 
 
@@ -211,7 +214,8 @@ filter_bank filterbank(int nfilt, int NFFT)
 		hzpoint[i] = (float)mel2hz(melpoint[i]);
 		bin[i] = floor(((NFFT + 1) * (float)hzpoint[i]) / SAMPLE_RATE);
 	}
-
+	free(melpoint);
+	free(hzpoint);
 	int a = (int)floor((1.0 * NFFT / 2) + 1);
 	float* fbank = (float*)calloc(nfilt* a, sizeof(float));       //26 filter, moi filter chi co 1 diem co gia tri bang 1 (chinh la tan so dc chia theo thang tuyen tinh)           
 
@@ -231,7 +235,7 @@ filter_bank filterbank(int nfilt, int NFFT)
 			fbank[(m - 1)* a + k] = (bin[m + 1] - k) / (bin[m + 1] - bin[m]);
 		}
 	}
-
+	free(bin);
 	return getFBank(fbank, nfilt, a);
 }
 
@@ -262,9 +266,13 @@ void free_hyper_vector(hyper_vector vector)
 
 filter_bank getFBank(float *fbank, int nfilt, int filt_len) {
 	filter_bank temp;
-	temp.data = fbank;
+	temp.data = (float *)malloc(sizeof(float) * nfilt * filt_len);
+	for (int i = 0; i < nfilt * filt_len; i++) {
+		temp.data[i] = fbank[i];
+	}
 	temp.nfilt = nfilt;
 	temp.filt_len = filt_len;
+	free(fbank);
 	return temp;
 }
 
@@ -272,7 +280,10 @@ filter_bank getFBank(float *fbank, int nfilt, int filt_len) {
 SIGNAL setSignal(SAMPLE * a, int size)
 {
 	SIGNAL temp;
-	temp.raw_signal = a;
+	temp.raw_signal = (float *)malloc(sizeof(float) * size);
+	for (int i = 0; i < size; ++i) {
+		temp.raw_signal[i] = a[i];
+	}
 	temp.frame_length = SAMPLE_RATE * 0.025;
 	temp.step_lengh = SAMPLE_RATE * 0.01;
 	temp.signal_length = size;
@@ -285,7 +296,11 @@ hyper_vector setHVector(SAMPLE * a, int col, int row, int dim)
 	temp_vector.col = col;
 	temp_vector.row = row;
 	temp_vector.dim = dim;
-	temp_vector.data = a;
+	temp_vector.data = (SAMPLE *)malloc(sizeof(SAMPLE) * row * col *dim);
+	for (int i = 0; i < col * row * dim; ++i) {
+		temp_vector.data[i] = a[i];
+	}
+	free(a);
 	return temp_vector;
 }
 
@@ -350,22 +365,19 @@ hyper_vector getFrames(SIGNAL a)
 	}
 
 
-	return setHVector(frames, frame_len, a.num_frame, frame_len*a.num_frame);
+	return setHVector(frames, frame_len, a.num_frame, 1);
 }
 
-hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
+void append_energy(hyper_vector dct, hyper_vector pow_spec)
 {
-	SIGNAL a = setSignal(audio_signal, size);
-	hyper_vector frames = getFrames(a);
-
-	hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
-
-	filter_bank fbanks = filterbank(26, 512);
-
-	hyper_vector apply = multiply(power_spec, transpose(setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 2)));
-	system("cls");
-	apply = DCT(apply, 13);
-	return apply;
+	float sum;
+	for (int i = 0; i < pow_spec.row; i++) {
+		sum = 0;
+		for (int j = 0; j < pow_spec.col; j++) {
+			sum += pow_spec.data[i*pow_spec.col + j];
+		}
+		dct.data[i*dct.col] = 20*log10(sum);
+	}
 }
 
 void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
@@ -375,6 +387,42 @@ void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
 	char *absolute_path = (char *)malloc(sizeof(char) * (len + 18));
 	strcpy(absolute_path, path);
 	//strcat();
+}
+
+hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
+{
+	SIGNAL a = setSignal(audio_signal, size);
+	free(audio_signal);
+	//a = silence_trim(a);
+
+	hyper_vector frames = getFrames(a);
+	free(a.raw_signal);
+	hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
+
+	//for (int i = 0; i < frames.row; i++) {
+	//	for (int j = 0; j < 257; j++)
+	//		printf("pow: %.9f\n", power_spec.data[i*257 +j]);
+	//}
+
+	filter_bank fbanks = filterbank(26, 512);
+
+	//
+	//hyper_vector a;
+	//a.data = temp;
+	//a.col = 9;
+	//a.row = 0;
+
+	hyper_vector transpose_param = setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 1);
+	hyper_vector tmp = transpose(transpose_param);
+	free(transpose_param.data);
+	hyper_vector apply = multiply(power_spec, tmp);
+	free(tmp.data);
+	system("cls");
+	hyper_vector feature = DCT(apply, 13);
+	free(apply.data);
+	append_energy(feature, power_spec);
+	free(power_spec.data);
+	return feature;
 }
 
 hyper_vector get_first_single_frame(hyper_vector feature_vector)

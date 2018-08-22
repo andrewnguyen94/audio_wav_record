@@ -18,5 +18,9 @@ int main(int argc, char **argv)
 	hyper_vector feature_vector_all_frame = get_feature_vector_from_signal(audio_signal, size);
 	hyper_vector feature_vector = get_first_single_frame(feature_vector_all_frame);
 
+	//int is_record = find_args(argc, argv, "-record");
+	/*if (is_record) {
+	record_audio_to_database();
+	}*/
 	return 1;
 }
