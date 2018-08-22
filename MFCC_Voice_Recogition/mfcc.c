@@ -37,7 +37,7 @@ hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2)
 		}
 		//printf("\n");
 	}
-	return setHVector(matrix, c2, r1, c2*r1);
+	return setHVector(matrix, c2, r1,1);
 }
 
 hyper_vector transpose(hyper_vector matrix)
@@ -57,7 +57,7 @@ hyper_vector transpose(hyper_vector matrix)
 		//printf("\n");
 	}
 
-	return setHVector(transposeMatrix, c, r, c*r);
+	return setHVector(transposeMatrix, c, r, 1);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -142,7 +142,8 @@ hyper_vector DCT(hyper_vector a, int num_ceps) {
 		}
 		//printf("\n");
 	}
-	return setHVector(dct, num_ceps, a.row, 2);
+	free(temp);
+	return setHVector(dct, num_ceps, a.row, 1);
 }
 
 
@@ -213,7 +214,8 @@ filter_bank filterbank(int nfilt, int NFFT)
 		hzpoint[i] = (float)mel2hz(melpoint[i]);
 		bin[i] = floor(((NFFT + 1) * (float)hzpoint[i]) / SAMPLE_RATE);
 	}
-
+	free(melpoint);
+	free(hzpoint);
 	int a = (int)floor((1.0 * NFFT / 2) + 1);
 	float* fbank = (float*)calloc(nfilt* a, sizeof(float));       //26 filter, moi filter chi co 1 diem co gia tri bang 1 (chinh la tan so dc chia theo thang tuyen tinh)           
 
@@ -233,7 +235,7 @@ filter_bank filterbank(int nfilt, int NFFT)
 			fbank[(m - 1)* a + k] = (bin[m + 1] - k) / (bin[m + 1] - bin[m]);
 		}
 	}
-
+	free(bin);
 	return getFBank(fbank, nfilt, a);
 }
 
@@ -249,9 +251,13 @@ int getLength(SAMPLE * a)
 
 filter_bank getFBank(float *fbank, int nfilt, int filt_len) {
 	filter_bank temp;
-	temp.data = fbank;
+	temp.data = (float *)malloc(sizeof(float) * nfilt * filt_len);
+	for (int i = 0; i < nfilt * filt_len; i++) {
+		temp.data[i] = fbank[i];
+	}
 	temp.nfilt = nfilt;
 	temp.filt_len = filt_len;
+	free(fbank);
 	return temp;
 }
 
@@ -259,7 +265,10 @@ filter_bank getFBank(float *fbank, int nfilt, int filt_len) {
 SIGNAL setSignal(SAMPLE * a, int size)
 {
 	SIGNAL temp;
-	temp.raw_signal = a;
+	temp.raw_signal = (float *)malloc(sizeof(float) * size);
+	for (int i = 0; i < size; ++i) {
+		temp.raw_signal[i] = a[i];
+	}
 	temp.frame_length = SAMPLE_RATE * 0.025;
 	temp.step_lengh = SAMPLE_RATE * 0.01;
 	temp.signal_length = size;
@@ -272,7 +281,11 @@ hyper_vector setHVector(SAMPLE * a, int col, int row, int dim)
 	temp_vector.col = col;
 	temp_vector.row = row;
 	temp_vector.dim = dim;
-	temp_vector.data = a;
+	temp_vector.data = (SAMPLE *)malloc(sizeof(SAMPLE) * row * col *dim);
+	for (int i = 0; i < col * row * dim; ++i) {
+		temp_vector.data[i] = a[i];
+	}
+	free(a);
 	return temp_vector;
 }
 
@@ -337,7 +350,7 @@ hyper_vector getFrames(SIGNAL a)
 	}
 
 
-	return setHVector(frames, frame_len, a.num_frame, frame_len*a.num_frame);
+	return setHVector(frames, frame_len, a.num_frame, 1);
 }
 
 void append_energy(hyper_vector dct, hyper_vector pow_spec)
@@ -361,7 +374,7 @@ hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
 
 	filter_bank fbanks = filterbank(26, 512);
 
-	hyper_vector apply = multiply(power_spec, transpose(setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 2)));
+	hyper_vector apply = multiply(power_spec, transpose(setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 1)));
 	system("cls");
 	apply = DCT(apply, 13);
 	return apply;
