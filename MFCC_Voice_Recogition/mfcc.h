@@ -49,8 +49,9 @@ filter_bank getFBank(float *fbank, int nfilt, int filt_len);
 int getLength(SAMPLE *a);
 SIGNAL setSignal(SAMPLE *a, int size);
 hyper_vector setHVector(SAMPLE *a, int col, int row, int dim);
-
 hyper_vector getFrames(struct SIGNAL a);
+void append_energy(hyper_vector dct, hyper_vector pow_spec);
+
 //COMPLEX *DFT(hyper_vector a, int pointFFT
 hyper_vector DCT(hyper_vector a, int num_ceps);
 hyper_vector DFT_PowerSpectrum(hyper_vector a, int pointFFT);
@@ -67,5 +68,6 @@ hyper_vector transpose(hyper_vector matrix);
 
 SIGNAL silence_trim(SIGNAL a);
 SAMPLE *reverse(SIGNAL a);
-
+hyper_vector get_feature_vector_from_signal(SAMPLE *audio_signal, int size);
+void write_feature_vector_to_database(hyper_vector feature_vector, char *name);
 #endif // !MFCC_H

@@ -12,6 +12,12 @@ int find_args(int argc, char * argv[], char * arg)
 	return 0;
 }
 
+char * get_name_file_from_path(char * path)
+{
+
+	return NULL;
+}
+
 void error(char *err)
 {
 	fprintf(stderr, "error : ", err);

@@ -76,11 +76,9 @@ SIGNAL silence_trim(SIGNAL a)
 
 	for (int i = start; i < a.signal_length - end; i++) {
 		sample[dem] = a.raw_signal[i];
-		printf("%f", sample[dem]);
 		dem++;
 
 	}
-	getch();
 	free(temp);
 	return setSignal(sample, size);
 }
@@ -89,7 +87,7 @@ int detect_silence(SAMPLE* a, int signal_len)
 {
 	int trim_ms = 0; // ms
 	int chunk_size = 10 * 16;
-	while (dBFS(a, trim_ms, chunk_size, -50) && trim_ms < signal_len)
+	while (dBFS(a, trim_ms, chunk_size, -25) && trim_ms < signal_len)
 	{
 		trim_ms += chunk_size;
 	}
@@ -102,7 +100,7 @@ int dBFS(SAMPLE* raw_signal, int trim_ms, int chunk_size, int silence_threshold)
 		sum += raw_signal[i] * raw_signal[i];
 	}
 	sum = sqrt(sum / (chunk_size));
-	sum = 20 * log10(sum / 32767);
+	sum = 20 * log10(sum);
 	if (sum < silence_threshold)
 		return 1;
 	return 0;
@@ -126,19 +124,23 @@ hyper_vector DCT(hyper_vector a, int num_ceps) {
 	float *dct = (float*)malloc(sizeof(float)*a.row*num_ceps);
 	float *temp = (float*)malloc(sizeof(float)*len);
 	float factor = PI / a.col;
+	float sum;
 
 	for (k = 0; k < a.row; k++) {
 		for (i = 0; i < len; i++) {
-			float sum = 0;
+			sum = 0;
 			for (j = 0; j < len; j++)
 				sum += a.data[k*len + j] * cos((j + 0.5) * i * factor);
 			temp[i] = sum;
 		}
 		for (j = 0; j < num_ceps; j++) {
-			dct[i*num_ceps + j] = temp[i];
-			printf("%.4f  ", dct[i*num_ceps + j]);
+			//if (k == 498) {
+			//	printf("cc ");
+			//}
+			dct[k*num_ceps + j] = temp[j];
+			//printf("%.4f  ", dct[k*num_ceps + j]);
 		}
-		printf("\n");
+		//printf("\n");
 	}
 	return setHVector(dct, num_ceps, a.row, 2);
 }
@@ -336,4 +338,40 @@ hyper_vector getFrames(SIGNAL a)
 
 
 	return setHVector(frames, frame_len, a.num_frame, frame_len*a.num_frame);
+}
+
+void append_energy(hyper_vector dct, hyper_vector pow_spec)
+{
+	float sum;
+	for (int i = 0; i < pow_spec.row; i++) {
+		sum = 0;
+		for (int j = 0; j < pow_spec.col; j++) {
+			sum += pow_spec.data[i*pow_spec.col + j];
+		}
+		dct.data[i*dct.col] = 20*log10(sum);
+	}
+}
+
+hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
+{
+	SIGNAL a = setSignal(audio_signal, size);
+	hyper_vector frames = getFrames(a);
+
+	hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
+
+	filter_bank fbanks = filterbank(26, 512);
+
+	hyper_vector apply = multiply(power_spec, transpose(setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 2)));
+	system("cls");
+	apply = DCT(apply, 13);
+	return apply;
+}
+
+void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
+{
+	char *path = (char *)"./feature_vector/";
+	size_t len = strlen(name);
+	char *absolute_path = (char *)malloc(sizeof(char) * (len + 18));
+	strcpy(absolute_path, path);
+	//strcat();
 }

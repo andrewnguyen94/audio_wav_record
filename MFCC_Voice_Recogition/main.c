@@ -6,13 +6,13 @@ int main(int argc, char **argv)
 {
 	//int is_record = find_args(argc, argv, "-record");
 	/*if (is_record) {
-		record_audio_to_database();
+	record_audio_to_database();
 	}*/
 	int size;
 	SAMPLE *audio_signal = get_audio_signal_from_source(&size);
 
-	SIGNAL a = setSignal(audio_signal,size);
-	a = silence_trim(a);
+	SIGNAL a = setSignal(audio_signal, size);
+	//a = silence_trim(a);
 
 	hyper_vector frames = getFrames(a);
 
@@ -31,9 +31,20 @@ int main(int argc, char **argv)
 	//a.col = 9;
 	//a.row = 0;
 
-	hyper_vector apply = multiply(power_spec, transpose(setHVector(fbanks.data, fbanks.filt_len,fbanks.nfilt,2)));
+	hyper_vector apply = multiply(power_spec, transpose(setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 2)));
 	system("cls");
 	apply = DCT(apply, 13);
+
+	append_energy(apply,power_spec);
+	for (int k = 0; k < apply.row; k++) {
+		for (int j = 0; j < 13; j++) {
+			if (k == 498) {
+				printf("cc ");
+			}
+			printf("%.4f  ", apply.data[k*13 + j]);
+		}
+		printf("\n");
+	}
 	getch();
 
 }
