@@ -45,6 +45,9 @@ typedef struct filter_bank {
 ------------------------------------------
 ------------------------------------------*/
 
+hyper_vector make_hyper_vector(int row, int col, int dim);
+void free_hyper_vector(hyper_vector vector);
+
 filter_bank getFBank(float *fbank, int nfilt, int filt_len);
 int getLength(SAMPLE *a);
 SIGNAL setSignal(SAMPLE *a, int size);
@@ -69,4 +72,5 @@ SIGNAL silence_trim(SIGNAL a);
 SAMPLE *reverse(SIGNAL a);
 hyper_vector get_feature_vector_from_signal(SAMPLE *audio_signal, int size);
 void write_feature_vector_to_database(hyper_vector feature_vector, char *name);
+hyper_vector get_first_single_frame(hyper_vector feature_vector);
 #endif // !MFCC_H

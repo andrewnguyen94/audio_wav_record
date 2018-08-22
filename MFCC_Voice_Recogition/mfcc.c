@@ -245,6 +245,21 @@ int getLength(SAMPLE * a)
 	return sizeof(a) / sizeof(a[0]);
 }
 
+hyper_vector make_hyper_vector(int row, int col, int dim)
+{
+	hyper_vector vector;
+	vector.row = row;
+	vector.col = col;
+	vector.dim = dim;
+	vector.data = (float *)malloc(sizeof(float) * row * col * dim);
+	return vector;
+}
+
+void free_hyper_vector(hyper_vector vector)
+{
+	free(vector.data);
+}
+
 filter_bank getFBank(float *fbank, int nfilt, int filt_len) {
 	filter_bank temp;
 	temp.data = fbank;
@@ -360,4 +375,13 @@ void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
 	char *absolute_path = (char *)malloc(sizeof(char) * (len + 18));
 	strcpy(absolute_path, path);
 	//strcat();
+}
+
+hyper_vector get_first_single_frame(hyper_vector feature_vector)
+{
+	hyper_vector first_single_frame = make_hyper_vector(feature_vector.col, 1, 1);
+	for (int i = 0; i < feature_vector.col; ++i) {
+		first_single_frame.data[i] = feature_vector.data[i];
+	}
+	return first_single_frame;
 }

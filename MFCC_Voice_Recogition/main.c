@@ -13,9 +13,10 @@ int main(int argc, char **argv)
 	}
 	int size = get_number_of_sample_in_record();
 	char *path = (char *)"./data/0_2.txt";
+	char *name = (char *)"0_2.txt";
 	SAMPLE* audio_signal = get_audio_signal_from_source(path);
-	hyper_vector feature_vector = get_feature_vector_from_signal(audio_signal, size);
-
+	hyper_vector feature_vector_all_frame = get_feature_vector_from_signal(audio_signal, size);
+	hyper_vector feature_vector = get_first_single_frame(feature_vector_all_frame);
 
 	return 1;
 }

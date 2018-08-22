@@ -1,4 +1,32 @@
 ﻿  main.c
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\main.c(16): warning C4133: 'function': incompatible types - from 'char *' to 'int *'
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\main.c(17): warning C4101: 'feature_vector': unreferenced local variable
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\main.c(17): warning C4133: 'function': incompatible types - from 'char *' to 'int *'
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\main.c(19): warning C4101: 'feature_vector': unreferenced local variable
+  mfcc.c
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(7): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(12): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(48): warning C4101: 'j': unreferenced local variable
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(48): warning C4101: 'i': unreferenced local variable
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(71): warning C4013: 'detect_silence' undefined; assuming extern returning int
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(83): warning C4013: 'getch' undefined; assuming extern returning int
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(92): warning C4013: 'dBFS' undefined; assuming extern returning int
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(105): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(112): warning C4101: 't': unreferenced local variable
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(134): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(128): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(161): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(162): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(163): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(160): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(182): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(198): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(200): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(207): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(212): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(240): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(276): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(277): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(303): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe
