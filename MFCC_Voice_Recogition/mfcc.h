@@ -5,7 +5,6 @@
 ------------------------------------------
 ------------------------------------------*/
 #include "record.h"
-#include <stdlib.h>
 #include <math.h>
 
 /*defines, constants
@@ -46,9 +45,6 @@ typedef struct filter_bank {
 ------------------------------------------
 ------------------------------------------*/
 
-hyper_vector make_hyper_vector(int row, int col, int dim);
-void free_hyper_vector(hyper_vector vector);
-
 filter_bank getFBank(float *fbank, int nfilt, int filt_len);
 int getLength(SAMPLE *a);
 SIGNAL setSignal(SAMPLE *a, int size);
@@ -63,6 +59,7 @@ hyper_vector DFT_PowerSpectrum(hyper_vector a, int pointFFT);
 float magnitude(float real, float img);
 filter_bank filterbank(int nfilt, int NFFT);
 float HammingWindow(float a, int frameLength);
+SIGNAL preEmphasis(SAMPLE *a, int size, float preemh);
 
 float hz2mel(float hz);
 float mel2hz(float hz);
@@ -72,7 +69,14 @@ hyper_vector transpose(hyper_vector matrix);
 
 SIGNAL silence_trim(SIGNAL a);
 SAMPLE *reverse(SIGNAL a);
+
+//////////////////////////////////final_feature/////////////////////////////
+hyper_vector cov(hyper_vector mfcc);
+void normalize(float * data, int row, int col);
+hyper_vector var(hyper_vector);
+
 hyper_vector get_feature_vector_from_signal(SAMPLE *audio_signal, int size);
 void write_feature_vector_to_database(hyper_vector feature_vector, char *name);
-hyper_vector get_first_single_frame(hyper_vector feature_vector);
+
+
 #endif // !MFCC_H

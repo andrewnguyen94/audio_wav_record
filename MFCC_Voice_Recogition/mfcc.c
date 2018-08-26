@@ -1,5 +1,4 @@
-﻿
-#include"mfcc.h"
+﻿#include"mfcc.h"
 
 /////////////////////measuring scale/////////////////////////////////
 float mel2hz(float mel)
@@ -33,11 +32,13 @@ hyper_vector multiply(hyper_vector matrix1, hyper_vector matrix2)
 			for (k = 0; k < c1; k++)
 				sum = sum + matrix1.data[i*c1 + k] * matrix2.data[k*c2 + j];
 			matrix[i*c2 + j] = 20 * log10(sum);
-			//printf("%f ", matrix[i*c2 + j]);
+			//if (i*c2 + j > 3190) {
+			//printf("%d %.2f ", i*c2 + j, matrix[i*c2 + j]);
+			//}
 		}
 		//printf("\n");
 	}
-	return setHVector(matrix, c2, r1,1);
+	return setHVector(matrix, c2, r1, 1);
 }
 
 hyper_vector transpose(hyper_vector matrix)
@@ -70,15 +71,28 @@ SIGNAL silence_trim(SIGNAL a)
 
 	start = detect_silence(a.raw_signal, a.signal_length);
 	end = detect_silence(temp, a.signal_length);
+	start -= 1600;
+	end -= 3200;
 	size = a.signal_length - start - end;
 
 	float *sample = (float*)malloc(sizeof(float)*size);
 
+	FILE *f = fopen("file3.txt", "w");
+	if (f == NULL)
+	{
+		printf("Error opening file!\n");
+		exit(1);
+	}
+
+
+
 	for (int i = start; i < a.signal_length - end; i++) {
 		sample[dem] = a.raw_signal[i];
+		fprintf(f, "%.8f\n", sample[dem]);
 		dem++;
 
 	}
+	fclose(f);
 	free(temp);
 	return setSignal(sample, size);
 }
@@ -87,7 +101,7 @@ int detect_silence(SAMPLE* a, int signal_len)
 {
 	int trim_ms = 0; // ms
 	int chunk_size = 10 * 16;
-	while (dBFS(a, trim_ms, chunk_size, -25) && trim_ms < signal_len)
+	while (dBFS(a, trim_ms, chunk_size, -40) && trim_ms < signal_len)
 	{
 		trim_ms += chunk_size;
 	}
@@ -106,6 +120,7 @@ int dBFS(SAMPLE* raw_signal, int trim_ms, int chunk_size, int silence_threshold)
 	return 0;
 }
 
+
 SAMPLE *reverse(SIGNAL a) {
 	SAMPLE t;
 	SAMPLE *sample = (SAMPLE*)malloc(sizeof(SAMPLE)*a.signal_length);
@@ -115,6 +130,115 @@ SAMPLE *reverse(SIGNAL a) {
 		dem++;
 	}
 	return sample;
+}
+
+hyper_vector cov(hyper_vector mfcc)
+{
+	int col = mfcc.col;
+	int row = mfcc.row;
+	int i, j, k;
+	float sum;
+	float *mean = (float*)malloc(sizeof(float)*col);
+	for (i = 0; i < col; i++) {
+		sum = 0;
+		for (j = 0; j < row; j++) {
+			sum += mfcc.data[j*col + i];
+		}
+		mean[i] = sum / row;
+		//printf("%f ", mean[i]);
+	}
+	//printf("\n");
+
+	float *cov = (float*)malloc(sizeof(float)*col*col);
+	sum = 0;
+	for (j = 0; j < col; j++) {
+		for (k = 0; k < col; k++) {
+			for (i = 0; i < row; i++) {
+				sum += (mfcc.data[i*col + j] - mean[j])*(mfcc.data[i*col + k] - mean[k]);
+			}
+			cov[j*col + k] = sum / (row - 1);
+			//printf("%f ", cov[j*col + k]);
+			sum = 0;
+		}
+		//printf("\n");
+	}
+
+
+	float size = col * (col + 1) / 2;
+	float *final_mfcc = (float*)malloc(sizeof(float)*size);
+
+
+	int mark = col + 1;
+	int col_temp = col;
+	int dem = 0, dem2 = 1;
+	i = j = dem2 = dem;
+	while (i < size)
+	{
+		if (i == 0) {
+			final_mfcc[i] = cov[i];
+			dem2++;
+		}
+		else {
+			if (dem2 < col_temp) {
+				j += mark;
+				final_mfcc[i] = cov[j];
+				dem2++;
+			}
+			else {
+				col_temp--;
+				dem++;
+				j = dem;
+				final_mfcc[i] = cov[j];
+				dem2 = 1;
+
+				i++;
+				continue;
+			}
+		}
+
+		i++;
+	}
+	free(cov);
+	return setHVector(final_mfcc, size, 1, 1);
+}
+
+void normalize(float * data, int row, int col)
+{
+	float sum = 0;
+	int i, j;
+	float *mean = (float*)malloc(sizeof(float)*col);
+	float *max_row = (float*)malloc(sizeof(float)*row);
+	for (i = 0; i < col; i++) {
+		sum = 0;
+		for (j = 0; j < row; j++) {
+			sum += data[j*col + i];
+		}
+		mean[i] = sum / row;
+		printf("%f ", mean[i]);
+	}
+
+	float maximum = 0;
+	printf("\n");
+	for (i = 0; i < row; i++)
+	{
+		for (j = 0; j < col; j++)
+			if (fabs(data[i*col + j]) > maximum)
+				maximum = fabs(data[i*col + j]);
+
+		max_row[i] = maximum;
+		printf("%f ", max_row[i]);
+		maximum = 0;
+	}
+	printf("\n");
+	for (i = 1; i < row; i++)
+	{
+		for (j = 1; j < col; j++) {
+			data[j*col + i] = (data[j*col + i] - mean[j]) / max_row[i];
+			printf("%f ", data[j*col + i]);
+		}
+		printf("\n");
+	}
+	getch();
 }
 
 //////////////////////////////////////////////////////
@@ -164,9 +288,17 @@ hyper_vector DFT_PowerSpectrum(hyper_vector frame, int pointFFT)
 				temp = frame.data[i * frame.col + n] * HammingWindow(n, frame.col);
 				real += temp * cos(term);
 				img += temp * sin(term);
+				//if (n > 320) {
+				//	printf("");
+				//}
 			}
 			temp = magnitude(real, img);
-			pow_spectrum.data[i* (pointFFT / 2 + 1) + k] = temp*temp / frame.col;
+
+			pow_spectrum.data[i* (pointFFT / 2 + 1) + k] = temp * temp / frame.col;
+			//if (i* (pointFFT / 2 + 1) + k > 31619) {
+
+			//	printf("%.2f", pow_spectrum.data[i* (pointFFT / 2 + 1) + k]);
+			//}
 			real = img = 0;
 		}
 
@@ -187,13 +319,13 @@ float magnitude(float real, float img)
 
 filter_bank filterbank(int nfilt, int NFFT)
 {
-	int lowfreq_mel = 0;                    //cận dưới thang Mel
-	float highfreq_mel = (float)hz2mel(SAMPLE_RATE / 2);   //Cận trên
+	int lowfreq_mel = 0;                    //c?n du?i thang Mel
+	float highfreq_mel = (float)hz2mel(SAMPLE_RATE / 2);   //C?n trên
 	float *melpoint = (float*)malloc(sizeof(float)*(nfilt + 2));
 	float *hzpoint = (float*)malloc(sizeof(float)*(nfilt + 2));
-	float *bin = (float*)malloc(sizeof(float)*(nfilt + 2));           //FFT bins được tính theo công thức (NFFT + 1) * hzpoints / SAMPLE_RATE
+	float *bin = (float*)malloc(sizeof(float)*(nfilt + 2));           //FFT bins du?c tính theo công th?c (NFFT + 1) * hzpoints / SAMPLE_RATE
 
-	float step = (highfreq_mel - lowfreq_mel) / (nfilt + 2);       //bước chuyển tuyến tính thang Mel
+	float step = (highfreq_mel - lowfreq_mel) / (nfilt + 2);       //bu?c chuy?n tuy?n tính thang Mel
 	for (int i = 0; i < nfilt + 2; i++)
 	{
 		if (i == 0)
@@ -220,12 +352,12 @@ filter_bank filterbank(int nfilt, int NFFT)
 	float* fbank = (float*)calloc(nfilt* a, sizeof(float));       //26 filter, moi filter chi co 1 diem co gia tri bang 1 (chinh la tan so dc chia theo thang tuyen tinh)           
 
 
-																  //tính filterbanks theo công thức.
+																  //tính filterbanks theo công th?c.
 	for (int m = 1; m < nfilt + 1; m++)
 	{
-		int f_m_minus_1 = (int)bin[m - 1];      //điểm bắt đầu
-		int f_m = (int)bin[m];                  //đạt cực trị
-		int f_m_plus_1 = (int)bin[m + 1];       //kết thúc của 1 filter
+		int f_m_minus_1 = (int)bin[m - 1];      //di?m b?t d?u
+		int f_m = (int)bin[m];                  //d?t c?c tr?
+		int f_m_plus_1 = (int)bin[m + 1];       //k?t thúc c?a 1 filter
 		for (int k = f_m_minus_1; k < f_m; k++)     //len dan cho den khi dat cuc dai fbank (0 - 1)
 		{
 			fbank[(m - 1)* a + k] = (k - bin[m - 1]) / (bin[m] - bin[m - 1]);     //chia nguyen -> chi bang 1 tai diem f_m (1 so tan so xac dinh)
@@ -287,6 +419,7 @@ SIGNAL setSignal(SAMPLE * a, int size)
 	temp.frame_length = SAMPLE_RATE * 0.025;
 	temp.step_lengh = SAMPLE_RATE * 0.01;
 	temp.signal_length = size;
+	free(a);
 	return temp;
 }
 
@@ -310,7 +443,7 @@ hyper_vector getFrames(SIGNAL a)
 	int frame_len = a.frame_length;
 	int frame_step = a.step_lengh;
 
-	if (signal_len <= frame_len)        //số mẫu toàn tín hiệu nhỏ hơn độ rộng khung
+	if (signal_len <= frame_len)        //s? m?u toàn tín hi?u nh? hon d? r?ng khung
 		a.num_frame = 1;
 	else
 	{
@@ -322,12 +455,17 @@ hyper_vector getFrames(SIGNAL a)
 	int padsignal_len = (a.num_frame - 1) * frame_step + frame_len;      //do dai chuoi tin hieu neu cac frame day du
 	int zeros = padsignal_len - signal_len;                //Do dai chuoi Zeros can pad.
 
-	realloc(a.raw_signal, padsignal_len);
-	for (int i = signal_len; i < signal_len + zeros; i++)         //chen them 0 vao frame cuoi.
-	{
-		a.raw_signal[i] = 0;
-	}
+	SAMPLE *signal = (float*)malloc(sizeof(float)*padsignal_len);
 
+	//realloc(a.raw_signal, padsignal_len);
+	for (int i = 0; i < padsignal_len; i++)         //chen them 0 vao frame cuoi.
+	{
+		if (i < signal_len) {
+			signal[i] = a.raw_signal[i];
+			continue;
+		}
+		signal[i] = 0;
+	}
 
 	// thuc hien chia frame (0:0->framelen, 1:framestep->(framelen + framestep),...
 	int index = 0;
@@ -347,16 +485,20 @@ hyper_vector getFrames(SIGNAL a)
 		if (index == 0)                 //frame dau tien
 			for (int i = 0; i < frame_len; i++)
 			{
-				frames[index * frame_len + i] = a.raw_signal[i];
+				frames[index * frame_len + i] = signal[i];
+
 				/*printf("%f  ", frames[index * frame_len + i]);*/
 			}
 		else                          //cac frames con lai, framestep->(framelen + framestep)...
 		{
 			for (int i = temp; i < temp + frame_len; i++)
 			{
+				if (index * frame_len + dem1 > 49538) {
+					printf("");
+				}
+				frames[index * frame_len + dem1++] = signal[i];
 
-				frames[index * frame_len + dem1++] = a.raw_signal[i];
-				/*printf("%f  ", temp12);*/
+
 			}
 			temp += frame_step;
 			dem1 = 0;
@@ -376,8 +518,31 @@ void append_energy(hyper_vector dct, hyper_vector pow_spec)
 		for (int j = 0; j < pow_spec.col; j++) {
 			sum += pow_spec.data[i*pow_spec.col + j];
 		}
-		dct.data[i*dct.col] = 20*log10(sum);
+		dct.data[i*dct.col] = 20 * log10(sum);
 	}
+}
+
+SIGNAL preEmphasis(SAMPLE *a, int size, float preemh) {
+	SIGNAL temp;
+	temp.raw_signal = (float *)malloc(sizeof(float) * size);
+	for (int i = 0; i < size; ++i) {
+		if (i == 0) {
+			temp.raw_signal[i] = a[i];
+			continue;
+		}
+
+		temp.raw_signal[i] = a[i] - preemh * a[i - 1];
+		/*if (i > 48500) {
+		printf("%f ", temp.raw_signal[i]);
+		}*/
+		/*if (i>20015 && i<20030)
+		printf(" %f ", temp.raw_signal[i]);
+		*/
+	}
+	temp.frame_length = SAMPLE_RATE * 0.025;
+	temp.step_lengh = SAMPLE_RATE * 0.01;
+	temp.signal_length = size;
+	return temp;
 }
 
 void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
@@ -391,38 +556,33 @@ void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
 
 hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
 {
-	SIGNAL a = setSignal(audio_signal, size);
+	/*______________________get_pre_emphasized_signal_________________________________________________*/
+	SIGNAL a = preEmphasis(audio_signal, size, 0.97);
 	free(audio_signal);
-	//a = silence_trim(a);
-
+	/*______________________get_Frames________________________________________________________________*/
 	hyper_vector frames = getFrames(a);
 	free(a.raw_signal);
+	/*______________________compute_DFT_and_Power_spectrum____________________________________________*/
 	hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
-
-	//for (int i = 0; i < frames.row; i++) {
-	//	for (int j = 0; j < 257; j++)
-	//		printf("pow: %.9f\n", power_spec.data[i*257 +j]);
-	//}
-
+	/*______________________get_filterbanks___________________________________________________________*/
 	filter_bank fbanks = filterbank(26, 512);
-
-	//
-	//hyper_vector a;
-	//a.data = temp;
-	//a.col = 9;
-	//a.row = 0;
-
+	/*______________________apply_filterBanks_________________________________________________________*/
 	hyper_vector transpose_param = setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 1);
 	hyper_vector tmp = transpose(transpose_param);
 	free(transpose_param.data);
 	hyper_vector apply = multiply(power_spec, tmp);
 	free(tmp.data);
-	system("cls");
-	hyper_vector feature = DCT(apply, 13);
+	/*______________________get_more_compact_output_by_performing_DCT_conversion_______________________*/
+	hyper_vector test = DCT(apply, 13);
 	free(apply.data);
-	append_energy(feature, power_spec);
+	/*______________________append_frame_energy_into_mfcc_vectors______________________________________*/
+	append_energy(test, power_spec);
 	free(power_spec.data);
-	return feature;
+	/*______________________final_feature_vector_size_1x91_____________________________________________*/
+	hyper_vector final_feats = cov(test);
+	free(test.data);
+
+	return final_feats;
 }
 
 hyper_vector get_first_single_frame(hyper_vector feature_vector)
