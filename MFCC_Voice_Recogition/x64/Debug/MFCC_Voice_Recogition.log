@@ -1,45 +1,9 @@
-﻿  mfcc.c
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(6): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(11): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(49): warning C4101: 'j': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(49): warning C4101: 'i': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(72): warning C4013: 'detect_silence' undefined; assuming extern returning int
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(104): warning C4013: 'dBFS' undefined; assuming extern returning int
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(116): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(117): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(125): warning C4101: 't': unreferenced local variable
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(168): warning C4244: 'function': conversion from 'float' to '::size_t', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(202): warning C4244: 'function': conversion from 'float' to 'int', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(167): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(226): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(241): warning C4013: 'getch' undefined; assuming extern returning int
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(257): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(250): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(288): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(289): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(290): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(287): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(317): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(333): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(335): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(342): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(347): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(376): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(419): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(420): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(451): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(521): warning C4244: '=': conversion from 'double' to 'SAMPLE', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(542): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(543): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\mfcc.c(560): warning C4305: 'function': truncation from 'double' to 'float'
-  main.c
+﻿  main.c
 d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(18): warning C4477: 'fprintf' : format string '%.8f' requires an argument of type 'double', but variadic argument 1 has type 'SAMPLE *'
 d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(72): warning C4244: 'function': conversion from 'float' to '::size_t', possible loss of data
 d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(71): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(166): warning C4013: 'getch' undefined; assuming extern returning int
-  Generating Code...
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(141): warning C4013: 'getch' undefined; assuming extern returning int
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.pdb (Partial PDB)

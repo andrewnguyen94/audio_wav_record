@@ -108,72 +108,109 @@ void testCovm(float a[]) {
 
 int main(int argc, char **argv)
 {
-	FILE *f = fopen("db.txt", "w");
-	if (f == NULL)
-	{
-		printf("Error opening file!\n");
-		exit(1);
+	FILE *f;
+	int  option,dem=0;
+	printf("1. Build model.\n2. Record to D.\n3. Create Test.\nOption: ");
+	scanf("%d", &option);
+	switch (option) {
+	case 1:
+		f = fopen("db.txt", "r");
+		if (f == NULL)
+		{
+			printf("Error opening file!\n");
+			exit(1);
+		}
+		char *temp = (char*)malloc(sizeof(char) * 2);
+		float * raw_training = (float*)malloc(sizeof(float) * 80 * 91);
+
+		for (int i = 0; i < 80; i++) {
+			dem = 0;
+			for (int j = 0; j < 92; j++) {
+				if (j == 0){
+					fscanf(f, "%s", temp);
+					continue;
+				}
+				fscanf(f,"%f",&raw_training[i * 91 + dem]);
+				//printf("%f ", raw_training[i * 91 + dem]);
+				dem++;
+			}
+			//printf("\n");
+		}
+		fclose(f);
+		normalize(raw_training,80,91);
+		getch();
+		break;
+	case 2:
+		f = fopen("db.txt", "w");
+		if (f == NULL)
+		{
+			printf("Error opening file!\n");
+			exit(1);
+		}
+		int dem = 0;
+		char c, c1;
+		while (1) {
+			int size;
+			/*______________________get_raw_signal____________________________________________________________*/
+			SAMPLE *audio_signal = get_audio_signal_from_source(&size);
+
+			/*______________________get_pre_emphasized_signal_________________________________________________*/
+			SIGNAL a = setSignal(audio_signal, size);
+
+			/*______________________get_silence_free_signal_________________________________________________*/
+			writeDBFS(a.raw_signal, 0, size);
+			SIGNAL temp = silence_trim(a);
+			free(a.raw_signal);
+			/*______________________get_Frames________________________________________________________________*/
+			hyper_vector frames = getFrames(temp);
+			free(temp.raw_signal);
+			/*______________________compute_DFT_and_Power_spectrum____________________________________________*/
+			hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
+			/*______________________get_filterbanks___________________________________________________________*/
+			filter_bank fbanks = filterbank(26, 512);
+			/*______________________apply_filterBanks_________________________________________________________*/
+			hyper_vector transpose_param = setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 1);
+			hyper_vector tmp = transpose(transpose_param);
+			free(transpose_param.data);
+			hyper_vector apply = multiply(power_spec, tmp);
+			free(tmp.data);
+			/*______________________get_more_compact_output_by_performing_DCT_conversion_______________________*/
+			hyper_vector test = DCT(apply, 13);
+			free(apply.data);
+			/*______________________append_frame_energy_into_mfcc_vectors______________________________________*/
+			append_energy(test, power_spec);
+			free(power_spec.data);
+			/*______________________final_feature_vector_size_1x91_____________________________________________*/
+			hyper_vector final_feats = cov(test);
+			free(test.data);
+
+			fprintf(f, "%d: ", dem);
+			for (int i = 0; i<final_feats.col; i++) {
+				printf("%f ", final_feats.data[i]);
+				fprintf(f, "%f ", final_feats.data[i]);
+			}
+
+			free(final_feats.data);
+			fprintf(f, "\n");
+			printf("\nDONE!");
+			fflush(stdin);
+
+			c = getch();
+			c1 = getch();
+			if (c == 'y' || c == 'Y' || c1 == 'y') {
+				system("cls");
+				dem++;
+			}
+
+			printf("%d\n", dem);
+			if (dem == 100) {
+				fclose(f);
+				return 1;
+			}
+		}
+		break;
 	}
+	
 
-	int dem = 0;
-	char c, c1;
-	while (1) {
-		int size;
-		/*______________________get_raw_signal____________________________________________________________*/
-		SAMPLE *audio_signal = get_audio_signal_from_source(&size);
-
-		/*______________________get_pre_emphasized_signal_________________________________________________*/
-		SIGNAL a = setSignal(audio_signal, size);
-
-		/*______________________get_silence_free_signal_________________________________________________*/
-		writeDBFS(a.raw_signal, 0, size);
-		SIGNAL temp = silence_trim(a);
-		free(a.raw_signal);
-		/*______________________get_Frames________________________________________________________________*/
-		hyper_vector frames = getFrames(temp);
-		free(temp.raw_signal);
-		/*______________________compute_DFT_and_Power_spectrum____________________________________________*/
-		hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
-		/*______________________get_filterbanks___________________________________________________________*/
-		filter_bank fbanks = filterbank(26, 512);
-		/*______________________apply_filterBanks_________________________________________________________*/
-		hyper_vector transpose_param = setHVector(fbanks.data, fbanks.filt_len, fbanks.nfilt, 1);
-		hyper_vector tmp = transpose(transpose_param);
-		free(transpose_param.data);
-		hyper_vector apply = multiply(power_spec, tmp);
-		free(tmp.data);
-		/*______________________get_more_compact_output_by_performing_DCT_conversion_______________________*/
-		hyper_vector test = DCT(apply, 13);
-		free(apply.data);
-		/*______________________append_frame_energy_into_mfcc_vectors______________________________________*/
-		append_energy(test, power_spec);
-		free(power_spec.data);
-		/*______________________final_feature_vector_size_1x91_____________________________________________*/
-		hyper_vector final_feats = cov(test);
-		free(test.data);
-
-		fprintf(f, "%d: ",dem);
-		for (int i = 0; i<final_feats.col; i++) {
-			printf("%f ", final_feats.data[i]);
-			fprintf(f,"%f ", final_feats.data[i]);
-		}
-
-		free(final_feats.data);
-		fprintf(f, "\n");
-		printf("\nDONE!");
-		fflush(stdin);
-
-		c = getch();
-		c1 = getch();
-		if (c == 'y' || c == 'Y' || c1 == 'y') {
-			system("cls");
-			dem++;
-		}
-
-		printf("%d\n", dem);
-		if (dem == 100) {
-			fclose(f);
-			return 1;
-		}
-	}
+	
 }

@@ -204,10 +204,13 @@ hyper_vector cov(hyper_vector mfcc)
 
 void normalize(float * data, int row, int col)
 {
+	FILE *fmean, *fnorl;
 	float sum = 0;
 	int i, j;
 	float *mean = (float*)malloc(sizeof(float)*col);
 	float *max_row = (float*)malloc(sizeof(float)*row);
+
+	fmean = fopen("mean.txt", "w");
 	for (i = 0; i < col; i++) {
 		sum = 0;
 		for (j = 0; j < row; j++) {
@@ -215,10 +218,13 @@ void normalize(float * data, int row, int col)
 		}
 		mean[i] = sum / row;
 		printf("%f ", mean[i]);
+		fprintf(fmean,"%f ", mean[i]);
 	}
+	fclose(fmean);
 
+	
 	float maximum = 0;
-	printf("\n");
+
 	for (i = 0; i < row; i++)
 	{
 		for (j = 0; j < col; j++)
@@ -229,15 +235,31 @@ void normalize(float * data, int row, int col)
 		printf("%f ", max_row[i]);
 		maximum = 0;
 	}
+
 	printf("\n");
-	for (i = 1; i < row; i++)
+
+	fnorl = fopen("normalized.txt", "w");
+
+	for (i = 0; i < row; i++)
 	{
-		for (j = 1; j < col; j++) {
-			data[j*col + i] = (data[j*col + i] - mean[j]) / max_row[i];
-			printf("%f ", data[j*col + i]);
+		if(i<20)
+			fprintf(fnorl, "%d ", 1);
+		else if (i<40)
+			fprintf(fnorl, "%d ", 2);
+		else if (i<60)
+			fprintf(fnorl, "%d ", 3);
+		else
+			fprintf(fnorl, "%d ", 4);
+		for (j = 0; j < col; j++) {
+			data[i*col + j] = (data[i*col + j] - mean[j]) / max_row[i];
+			printf("%f ", data[i*col + j]);
+			fprintf(fnorl, "%d:%f ", j+1, data[i*col + j]);
 		}
 		printf("\n");
+		fprintf(fnorl,"\n");
 	}
+
+	fclose(fnorl);
 	getch();
 }
 
