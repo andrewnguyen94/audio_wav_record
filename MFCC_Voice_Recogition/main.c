@@ -3,42 +3,6 @@
 #include "mfcc.h"
 #include "utils.h"
 
-
-void writeDBFS(SAMPLE* raw_signal, int trim_ms, int signal_len) {
-
-	FILE *f = fopen("file.txt", "w");
-	if (f == NULL)
-	{
-		printf("Error opening file!\n");
-		exit(1);
-	}
-	for (int i = 0; i < signal_len; i++) {
-		if (i < 360) {
-			raw_signal[i] = 0;
-			fprintf(f, "%.8f\n", raw_signal);
-			continue;
-		}
-		fprintf(f, "%.8f\n", raw_signal[i]);
-	}
-	fclose(f);
-
-	FILE *f2 = fopen("file2.txt", "w");
-	int chunk_size = 160;
-	float sum = 0;
-	while (trim_ms < signal_len)
-	{
-		sum = 0;
-		for (int i = trim_ms; i < trim_ms + chunk_size; i++) {
-			sum += raw_signal[i] * raw_signal[i];
-		}
-		sum = sqrt(sum / (chunk_size));
-		sum = 20 * log10(sum);
-		fprintf(f2, "%f\n", sum);
-		trim_ms += chunk_size;
-	}
-	fclose(f2);
-}
-
 void testCovm(float a[]) {
 	int col = 5;
 	int row = 5;
@@ -109,8 +73,8 @@ void testCovm(float a[]) {
 int main(int argc, char **argv)
 {
 	FILE *f;
-	int  option,dem=0;
-	printf("1. Build model.\n2. Record to D.\n3. Create Test.\nOption: ");
+	int  option, dem = 0;
+	printf("1. Build model.\n2. Record to DB.\n3. Record to DB Ver.2\n4. Extract from DB.\nOption: ");
 	scanf("%d", &option);
 	switch (option) {
 	case 1:
@@ -121,23 +85,23 @@ int main(int argc, char **argv)
 			exit(1);
 		}
 		char *temp = (char*)malloc(sizeof(char) * 2);
-		float * raw_training = (float*)malloc(sizeof(float) * 80 * 91);
+		float * raw_training = (float*)malloc(sizeof(float) * 280 * 91);
 
-		for (int i = 0; i < 80; i++) {
+		for (int i = 0; i < 280; i++) {
 			dem = 0;
 			for (int j = 0; j < 92; j++) {
-				if (j == 0){
+				if (j == 0) {
 					fscanf(f, "%s", temp);
 					continue;
 				}
-				fscanf(f,"%f",&raw_training[i * 91 + dem]);
+				fscanf(f, "%f", &raw_training[i * 91 + dem]);
 				//printf("%f ", raw_training[i * 91 + dem]);
 				dem++;
 			}
 			//printf("\n");
 		}
 		fclose(f);
-		normalize(raw_training,80,91);
+		normalize(raw_training, 280, 91);
 		getch();
 		break;
 	case 2:
@@ -185,7 +149,7 @@ int main(int argc, char **argv)
 			free(test.data);
 
 			fprintf(f, "%d: ", dem);
-			for (int i = 0; i<final_feats.col; i++) {
+			for (int i = 0; i < final_feats.col; i++) {
 				printf("%f ", final_feats.data[i]);
 				fprintf(f, "%f ", final_feats.data[i]);
 			}
@@ -209,8 +173,83 @@ int main(int argc, char **argv)
 			}
 		}
 		break;
-	}
-	
+	case 3:
+		int is_record = find_args(argc, argv, "-record");
+		if (is_record) {
+			int is_training = find_args(argc, argv, "-training");
+			int is_testing = find_args(argc, argv, "-testing");
+			record_audio_to_database(is_training, is_testing);
+		}
+	case 4:
+		int option, label1=0,i=2;
+		char *label = (char*)malloc(sizeof(char));
+		int size = get_number_of_sample_in_record();
+		const char *default_ext = ".txt";
+		const char *default_path = "./data/";
 
-	
+		system("cls");
+		printf("Create Normalized DB for:\n4.1 All Classes.4.2 Separated Classes.\nOption (1/2): ");
+		scanf("%d", &option);
+		switch (option) {
+		case 1:
+			FILE *fdb = fopen("DB.txt", "w");
+			if (fdb == NULL) {
+				fprintf(stderr, "file no exist!!! \n");
+				exit(1);
+			}
+
+			while (label1<3) 
+			{
+				sprintf(label, "%d", label1);
+				char *temp = (char*)malloc(sizeof(char)*9);
+				strcpy(temp, default_path);
+				strcat(temp, label);
+				strcat(temp, "_");
+
+				while(true){
+					char *path;
+					char *index;
+					if (i < 10) { index = (char *)malloc(sizeof(char)); }
+					else if (i >= 10 && i < 100) {
+						index = (char *)malloc(sizeof(char) * 2);
+					}
+					else {
+						index = (char *)malloc(sizeof(char) * 3);
+					}
+					sprintf(index, "%d", i);
+					size_t len = 9 + 4 + strlen(index) + 1;
+					path = (char *)malloc(len * sizeof(char));
+					strcpy(path, temp);
+					strcat(path, index);
+					strcat(path, default_ext);
+					printf("path : %s \n", path);
+					if (check_path(path)) {
+						free(path);
+						break;
+					}
+					SAMPLE* audio_signal = read_audio_signal_from_file(path);
+					hyper_vector feature_vector_all_frame = get_feature_vector_from_signal(audio_signal, size);
+					int size_feature_vector = feature_vector_all_frame.col * feature_vector_all_frame.row * feature_vector_all_frame.dim;
+					printf("size : %d \n", size_feature_vector);
+					for (int j = 0; j < size_feature_vector; ++j) {
+						fprintf(fdb, "%f ", feature_vector_all_frame.data[j]);
+						printf("%f ", feature_vector_all_frame.data[j]);
+					}
+					fprintf(fdb, "\n ");
+					free(path);
+					i++;
+				}
+				++label1;
+				i = 0;
+			}
+			fclose(fdb);
+
+
+			break;
+
+		case 2:
+			break;
+		}
+		return 1;
+	}
 }

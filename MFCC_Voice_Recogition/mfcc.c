@@ -242,11 +242,11 @@ void normalize(float * data, int row, int col)
 
 	for (i = 0; i < row; i++)
 	{
-		if(i<20)
+		if(i<70)
 			fprintf(fnorl, "%d ", 1);
-		else if (i<40)
+		else if (i<140)
 			fprintf(fnorl, "%d ", 2);
-		else if (i<60)
+		else if (i<210)
 			fprintf(fnorl, "%d ", 3);
 		else
 			fprintf(fnorl, "%d ", 4);
@@ -576,14 +576,65 @@ void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
 	//strcat();
 }
 
+int check_path(char * path)
+{
+	FILE *fp = fopen(path, "r");
+	if (fp == NULL) {
+		fprintf(stderr, "file no exist!!! \n");
+		return 1;
+	}
+	fclose(fp);
+	return 0;
+}
+
+void writeDBFS(SAMPLE* raw_signal, int trim_ms, int signal_len) {
+
+	FILE *f = fopen("./data/file.txt", "w");
+	if (f == NULL)
+	{
+		printf("Error opening file!\n");
+		exit(1);
+	}
+	for (int i = 0; i < signal_len; i++) {
+		if (i < 360) {
+			raw_signal[i] = 0;
+			fprintf(f, "%.8f\n", raw_signal);
+			continue;
+		}
+		fprintf(f, "%.8f\n", raw_signal[i]);
+	}
+	fclose(f);
+
+	FILE *f2 = fopen("./data/file2.txt", "w");
+	int chunk_size = 160;
+	float sum = 0;
+	while (trim_ms < signal_len)
+	{
+		sum = 0;
+		for (int i = trim_ms; i < trim_ms + chunk_size; i++) {
+			sum += raw_signal[i] * raw_signal[i];
+		}
+		sum = sqrt(sum / (chunk_size));
+		sum = 20 * log10(sum);
+		fprintf(f2, "%f\n", sum);
+		trim_ms += chunk_size;
+	}
+	fclose(f2);
+}
+
+
 hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
 {
 	/*______________________get_pre_emphasized_signal_________________________________________________*/
-	SIGNAL a = preEmphasis(audio_signal, size, 0.97);
-	free(audio_signal);
-	/*______________________get_Frames________________________________________________________________*/
-	hyper_vector frames = getFrames(a);
+	SIGNAL a = setSignal(audio_signal, size);
+
+	/*______________________get_silence_free_signal_________________________________________________*/
+	writeDBFS(a.raw_signal, 0, size);
+	SIGNAL temp = silence_trim(a);
 	free(a.raw_signal);
+	/*______________________get_Frames________________________________________________________________*/
+	hyper_vector frames = getFrames(temp);
+	free(temp.raw_signal);
 	/*______________________compute_DFT_and_Power_spectrum____________________________________________*/
 	hyper_vector power_spec = DFT_PowerSpectrum(frames, 512);
 	/*______________________get_filterbanks___________________________________________________________*/
@@ -603,7 +654,6 @@ hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
 	/*______________________final_feature_vector_size_1x91_____________________________________________*/
 	hyper_vector final_feats = cov(test);
 	free(test.data);
-
 	return final_feats;
 }
 

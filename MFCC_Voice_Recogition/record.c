@@ -97,6 +97,7 @@ void record_audio_to_database(int is_training, int is_testing)
 {
 	int size;
 	SAMPLE *audio_singal = get_audio_signal_from_source(&size);
+	writeDBFS(audio_singal, 0, size);
 	int number_of_sample = get_number_of_sample_in_record();
 	char *keyword = (char *)malloc(sizeof(char) * 5);
 	char *numerical_order = (char *)malloc(sizeof(char) * 5);

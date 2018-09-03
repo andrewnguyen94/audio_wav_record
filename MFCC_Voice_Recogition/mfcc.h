@@ -78,5 +78,12 @@ hyper_vector var(hyper_vector);
 hyper_vector get_feature_vector_from_signal(SAMPLE *audio_signal, int size);
 void write_feature_vector_to_database(hyper_vector feature_vector, char *name);
 
+////////////////////////////////
+
+int check_path(char *path);
+
+//////////////////////test_signal_via_matlab/////////////////////////
+void writeDBFS(SAMPLE* raw_signal, int trim_ms, int signal_len);
+
 
 #endif // !MFCC_H
