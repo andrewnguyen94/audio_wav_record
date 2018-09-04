@@ -72,7 +72,8 @@ SAMPLE *reverse(SIGNAL a);
 
 //////////////////////////////////final_feature/////////////////////////////
 hyper_vector cov(hyper_vector mfcc);
-void normalize(float * data, int row, int col);
+void normalize(int* label, float * data, int row, int col);
+void normalize2(int label, float * data, int row, int col);
 hyper_vector var(hyper_vector);
 
 hyper_vector get_feature_vector_from_signal(SAMPLE *audio_signal, int size);
