@@ -1,2 +1,6 @@
-﻿  MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
+﻿  main.c
+d:\mfcc_voice_recognition\mfcc_voice_recogition\main.c(190): warning C4013: 'getch' undefined; assuming extern returning int
+  svm2.cpp
+d:\mfcc_voice_recognition\mfcc_voice_recogition\svm2.cpp(3293): warning C4172: returning address of local variable or temporary: prob
+  MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.exe
   MFCC_Voice_Recogition.vcxproj -> D:\MFCC_Voice_Recognition\x64\Debug\MFCC_Voice_Recogition.pdb (Partial PDB)

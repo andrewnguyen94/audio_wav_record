@@ -96,7 +96,7 @@ extern "C" {
 	int svm_check_probability_model(const struct svm_model *model);
 
 	void svm_set_print_string_function(void(*print_func)(const char *));
-	struct svm_problem extract_model(char *path,struct svm_parameter param);
+	struct svm_problem *extract_model(char *path,struct svm_parameter param);
 	struct svm_parameter initParam();
 #ifdef __cplusplus
 }

@@ -348,33 +348,33 @@ int main(int argc, char **argv)
 			printf("%s",path);
 
 			struct svm_parameter params = initParam();
-			struct svm_problem train_predict_data = extract_model(path,params);		
-			struct svm_model *train = svm_train(&train_predict_data, &params);
+			struct svm_problem *train_predict_data = extract_model(path,params);		
+			struct svm_model *train = svm_train(train_predict_data, &params);
 			
 
-			struct svm_problem test_predict_data = extract_model("normalizedT", params);
+			//struct svm_problem test_predict_data = extract_model("normalizedT", params);
 
-			struct  svm_node *temp = (struct svm_node*)malloc(sizeof(struct svm_node) * 91);
+			//struct  svm_node *temp = (struct svm_node*)malloc(sizeof(struct svm_node) * 91);
 
-			printf("\n");
-			for (int i = 0; i < 10; i++)
-			{
-				for (int j = 0; j < FEATSIZE; j++) {
-					temp[j].index =test_predict_data.x[i][j].index;
-					temp[j].value = test_predict_data.x[i][j].value;
-					//printf("%d:%f ", temp[j].index, temp[j].value);
-				}
+			//printf("\n");
+			//for (int i = 0; i < 10; i++)
+			//{
+			//	for (int j = 0; j < FEATSIZE; j++) {
+			//		temp[j].index =test_predict_data.x[i][j].index;
+			//		temp[j].value = test_predict_data.x[i][j].value;
+			//		//printf("%d:%f ", temp[j].index, temp[j].value);
+			//	}
 
-				for (int j = 0; j < FEATSIZE; j++) {
-					printf("%d:%f ", temp[j].index, temp[j].value);
-				}
-				printf("\n");
-				double cc = svm_predict(train, temp);
-				printf("%f ", cc);
-				
-			}
+			//	for (int j = 0; j < FEATSIZE; j++) {
+			//		printf("%d:%f ", temp[j].index, temp[j].value);
+			//	}
+			//	printf("\n");
+			//	double cc = svm_predict(train, temp);
+			//	printf("%f ", cc);
+			//	
+			//}
 
-			free(temp);
+			//free(temp);
  		}
 		break;
 	}

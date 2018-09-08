@@ -3187,7 +3187,7 @@ void exit_input_error(int line_num)
 	exit(1);
 }
 
-struct svm_problem extract_model(char *path, svm_parameter param) {
+struct svm_problem *extract_model(char *path, svm_parameter param) {
 	int max_index, inst_max_index, i;
 	size_t elements, j;
 	FILE *fp = fopen(path, "r");
@@ -3290,7 +3290,7 @@ struct svm_problem extract_model(char *path, svm_parameter param) {
 		}
 
 	fclose(fp);
-	return prob;
+	return &prob;
 }
 
 
