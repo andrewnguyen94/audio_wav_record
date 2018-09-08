@@ -3199,10 +3199,10 @@ struct svm_problem *extract_model(char *path, svm_parameter param) {
 		fprintf(stderr, "can't open input file %s\n", path);
 		exit(1);
 	}
-	svm_problem prob;
+	svm_problem *prob = (svm_problem *)malloc(sizeof(struct svm_problem));
 	svm_node *x_space;
 
-	prob.l = 0;
+	prob->l = 0;
 	elements = 0;
 
 	max_line_len = 1024;
@@ -3220,26 +3220,26 @@ struct svm_problem *extract_model(char *path, svm_parameter param) {
 			++elements;
 		}
 		++elements;
-		++prob.l;
+		++prob->l;
 	}
 	rewind(fp);
 
-	prob.y = Malloc(double, prob.l);
-	prob.x = Malloc(struct svm_node *, prob.l);
+	prob->y = Malloc(double, prob->l);
+	prob->x = Malloc(struct svm_node *, prob->l);
 	x_space = Malloc(struct svm_node, elements);
 
 	max_index = 0;
 	j = 0;
-	for (i = 0; i<prob.l; i++)
+	for (i = 0; i<prob->l; i++)
 	{
 		inst_max_index = -1; // strtol gives 0 if wrong format, and precomputed kernel has <index> start from 0
 		readline(fp);
-		prob.x[i] = &x_space[j];
+		prob->x[i] = &x_space[j];
 		label = strtok(line, " \t\n");
 		if (label == NULL) // empty line
 			exit_input_error(i + 1);
 
-		prob.y[i] = strtod(label, &endptr);
+		prob->y[i] = strtod(label, &endptr);
 		if (endptr == label || *endptr != '\0')
 			exit_input_error(i + 1);
 
@@ -3275,14 +3275,14 @@ struct svm_problem *extract_model(char *path, svm_parameter param) {
 		param.gamma = 1.0 / max_index;
 
 	if (param.kernel_type == PRECOMPUTED)
-		for (i = 0; i<prob.l; i++)
+		for (i = 0; i<prob->l; i++)
 		{
-			if (prob.x[i][0].index != 0)
+			if (prob->x[i][0].index != 0)
 			{
 				fprintf(stderr, "Wrong input format: first column must be 0:sample_serial_number\n");
 				exit(1);
 			}
-			if ((int)prob.x[i][0].value <= 0 || (int)prob.x[i][0].value > max_index)
+			if ((int)prob->x[i][0].value <= 0 || (int)prob->x[i][0].value > max_index)
 			{
 				fprintf(stderr, "Wrong input format: sample_serial_number out of range\n");
 				exit(1);
@@ -3290,7 +3290,7 @@ struct svm_problem *extract_model(char *path, svm_parameter param) {
 		}
 
 	fclose(fp);
-	return &prob;
+	return prob;
 }
 
 
