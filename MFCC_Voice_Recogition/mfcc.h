@@ -14,6 +14,7 @@
 #define PI 3.14159265359
 #define false 0
 #define true 1
+#define FEATSIZE 91
 
 typedef struct SIGNAL {
 	SAMPLE *raw_signal;
@@ -73,6 +74,7 @@ SAMPLE *reverse(SIGNAL a);
 //////////////////////////////////final_feature/////////////////////////////
 hyper_vector cov(hyper_vector mfcc);
 void normalize(int* label, float * data, int row, int col);
+void Get_normalize(int label, float * data, int row, int col);
 void normalize2(int label, float * data, int row, int col);
 hyper_vector var(hyper_vector);
 

@@ -257,6 +257,51 @@ void normalize(int *label, float * data, int row, int col)
 
 }
 
+void Get_normalize(int label, float * data, int row, int col)
+{
+	FILE *fmean, *fnorl;
+	float sum = 0;
+	int i, j;
+	float *mean = (float*)malloc(sizeof(float)*col);
+
+	fmean = fopen("mean.txt", "w");
+	for (i = 0; i < col; i++) {
+		sum = 0;
+		for (j = 0; j < row; j++) {
+			sum += data[j*col + i];
+		}
+		mean[i] = sum / row;
+		printf("%f ", mean[i]);
+		fprintf(fmean, "%.9f ", mean[i]);
+	}
+	fclose(fmean);
+
+
+	float maximum = 0;
+
+	for (j = 0; j < col; j++)
+			if (fabs(data[row*col + j]) > maximum)
+				maximum = fabs(data[row*col + j]);
+
+	fnorl = fopen("normalizedT.txt", "a");
+
+
+	fprintf(fnorl, "%d ", label);
+
+	for (j = 0; j < col; j++) {
+		data[row*col + j] = (data[row*col + j] - mean[j]) / maximum;
+		printf("%f ", data[row*col + j]);
+		fprintf(fnorl, "%d:%.9f ", j + 1, data[row*col + j]);
+	}
+	printf("\n");
+	fprintf(fnorl, "\n");
+	fclose(fnorl);
+}
+
+
+
+
+
 void normalize2(int label, float * data, int row, int col)
 {
 	FILE *fmean, *fnorl;
@@ -719,7 +764,7 @@ hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
 	hyper_vector apply = multiply(power_spec, tmp);
 	free(tmp.data);
 	/*______________________get_more_compact_output_by_performing_DCT_conversion_______________________*/
-	hyper_vector test = DCT(apply, 13);
+	hyper_vector test = DCT(apply, 20);
 	free(apply.data);
 	/*______________________append_frame_energy_into_mfcc_vectors______________________________________*/
 	append_energy(test, power_spec);
