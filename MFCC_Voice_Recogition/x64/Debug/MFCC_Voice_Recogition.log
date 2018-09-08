@@ -1,7 +1,4 @@
-﻿  main.c
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\main.c(17): warning C4133: 'function': incompatible types - from 'char *' to 'int *'
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\main.c(19): warning C4101: 'feature_vector': unreferenced local variable
-  mfcc.c
+﻿  mfcc.c
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(7): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(12): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
@@ -28,12 +25,4 @@ d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(287
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(288): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(318): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\mfcc.c(379): warning C4244: '=': conversion from 'double' to 'SAMPLE', possible loss of data
-  record.c
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(74): warning C4047: 'return': 'SAMPLE *' differs in levels of indirection from 'int'
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'max': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'average': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(13): warning C4101: 'val': unreferenced local variable
-d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\record.c(5): warning C4101: 'outputParameters': unreferenced local variable
-  Generating Code...
-  LINK : D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe not found or not built by the last incremental link; performing full link
   MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe

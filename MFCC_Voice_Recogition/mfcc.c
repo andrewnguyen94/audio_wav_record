@@ -386,7 +386,15 @@ void write_feature_vector_to_database(hyper_vector feature_vector, char *name)
 	size_t len = strlen(name);
 	char *absolute_path = (char *)malloc(sizeof(char) * (len + 18));
 	strcpy(absolute_path, path);
-	//strcat();
+	strcat(absolute_path, name);
+	printf("%s", absolute_path);
+	FILE *feature_vector_file = fopen(absolute_path, "w");
+	int size = feature_vector.row * feature_vector.col * feature_vector.dim;
+	for (int i = 0; i < size; ++i) {
+		fprintf(feature_vector_file, "%f ", feature_vector.data[i]);
+	}
+	fclose(feature_vector_file);
+	free(absolute_path);
 }
 
 hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
@@ -427,6 +435,7 @@ hyper_vector get_feature_vector_from_signal(SAMPLE * audio_signal, int size)
 
 hyper_vector get_first_single_frame(hyper_vector feature_vector)
 {
+	printf("%d\n", feature_vector.col);
 	hyper_vector first_single_frame = make_hyper_vector(feature_vector.col, 1, 1);
 	for (int i = 0; i < feature_vector.col; ++i) {
 		first_single_frame.data[i] = feature_vector.data[i];

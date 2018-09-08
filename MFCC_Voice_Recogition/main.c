@@ -14,13 +14,10 @@ int main(int argc, char **argv)
 	int size = get_number_of_sample_in_record();
 	char *path = (char *)"./data/0_2.txt";
 	char *name = (char *)"0_2.txt";
-	SAMPLE* audio_signal = get_audio_signal_from_source(path);
+	SAMPLE* audio_signal = read_audio_signal_from_file(path);
 	hyper_vector feature_vector_all_frame = get_feature_vector_from_signal(audio_signal, size);
 	hyper_vector feature_vector = get_first_single_frame(feature_vector_all_frame);
-
-	//int is_record = find_args(argc, argv, "-record");
-	/*if (is_record) {
-	record_audio_to_database();
-	}*/
+	free_hyper_vector(feature_vector_all_frame);
+	write_feature_vector_to_database(feature_vector, name);
 	return 1;
 }
