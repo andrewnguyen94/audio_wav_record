@@ -3187,7 +3187,7 @@ void exit_input_error(int line_num)
 	exit(1);
 }
 
-struct svm_problem *extract_model(char *path, svm_parameter param) {
+struct svm_problem *extract_model(char *path, svm_parameter *param) {
 	int max_index, inst_max_index, i;
 	size_t elements, j;
 	FILE *fp = fopen(path, "r");
@@ -3271,10 +3271,10 @@ struct svm_problem *extract_model(char *path, svm_parameter param) {
 		x_space[j++].index = -1;
 	}
 
-	if (param.gamma == 0 && max_index > 0)
-		param.gamma = 1.0 / max_index;
+	if (param->gamma == 0 && max_index > 0)
+		param->gamma = 1.0 / max_index;
 
-	if (param.kernel_type == PRECOMPUTED)
+	if (param->kernel_type == PRECOMPUTED)
 		for (i = 0; i<prob->l; i++)
 		{
 			if (prob->x[i][0].index != 0)
@@ -3294,23 +3294,24 @@ struct svm_problem *extract_model(char *path, svm_parameter param) {
 }
 
 
-svm_parameter initParam()
+struct svm_parameter *initParam()
 {
-	svm_parameter param;
-	param.svm_type = C_SVC;
-	param.kernel_type = RBF;
-	param.degree = 3;
-	param.gamma = 0;	// 1/num_features
-	param.coef0 = 0;
-	param.nu = 0.5;
-	param.cache_size = 100;
-	param.C = 1;
-	param.eps = 1e-3;
-	param.p = 0.1;
-	param.shrinking = 1;
-	param.probability = 0;
-	param.nr_weight = 0;
-	param.weight_label = NULL;
-	param.weight = NULL;
+	struct svm_parameter *param;
+	param = (svm_parameter *)malloc(sizeof(struct svm_parameter));
+	param->svm_type = C_SVC;
+	param->kernel_type = RBF;
+	param->degree = 3;
+	param->gamma = 0;	// 1/num_features
+	param->coef0 = 0;
+	param->nu = 0.5;
+	param->cache_size = 100;
+	param->C = 1;
+	param->eps = 1e-3;
+	param->p = 0.1;
+	param->shrinking = 1;
+	param->probability = 0;
+	param->nr_weight = 0;
+	param->weight_label = NULL;
+	param->weight = NULL;
 	return param;
 }

@@ -85,7 +85,7 @@ int main(int argc, char **argv)
 	switch (option) {
 	case 1:
 		int  info[5];
-		int label2 = 1, lb = 1,lbtemp=1;
+		int label2 = 1, lb = 1, lbtemp = 1;
 		int demSize = 0, demClass = 0;
 		FILE * fdb = fopen("db.txt", "r");
 
@@ -105,10 +105,10 @@ int main(int argc, char **argv)
 		{
 			while (true) {
 				if (flag == 0) {
-					if (fscanf(fdb, "%d", &label2)==EOF)
+					if (fscanf(fdb, "%d", &label2) == EOF)
 						break;
 				}
-				if (label2 == lb){
+				if (label2 == lb) {
 					for (int j = 0; j < FEATSIZE; ++j) {
 						fscanf(fdb, "%f", &temp);
 					}
@@ -123,7 +123,7 @@ int main(int argc, char **argv)
 				demSize++;
 				demClass++;
 			}
-			if (label2 == 4&&flag==1) 
+			if (label2 == 4 && flag == 1)
 				lbtemp--;
 			fprintf(finf, "%d ", demClass);
 			demClass = 0;
@@ -330,7 +330,7 @@ int main(int argc, char **argv)
 		printf("\nDONE!!");
 		getch();
 	case 6:
-		FILE *fin = fopen("info.txt", "r");
+		FILE * fin = fopen("info.txt", "r");
 		for (int i = 0; i < 5; i++) {
 			fscanf(fin, "%d", &info[i]);
 		}
@@ -341,43 +341,23 @@ int main(int argc, char **argv)
 
 	case 7:
 		int is_test_predict = true;
-			//find_args(argc, argv, "-predict_test");
+		//find_args(argc, argv, "-predict_test");
 		if (is_test_predict) {
 
 			char *path = "normalized2";
-			printf("%s",path);
-
-			struct svm_parameter params = initParam();
-			struct svm_problem *train_predict_data = extract_model(path,params);		
-			struct svm_model *train = svm_train(train_predict_data, &params);
-			
-
-			//struct svm_problem test_predict_data = extract_model("normalizedT", params);
-
-			//struct  svm_node *temp = (struct svm_node*)malloc(sizeof(struct svm_node) * 91);
-
-			//printf("\n");
-			//for (int i = 0; i < 10; i++)
-			//{
-			//	for (int j = 0; j < FEATSIZE; j++) {
-			//		temp[j].index =test_predict_data.x[i][j].index;
-			//		temp[j].value = test_predict_data.x[i][j].value;
-			//		//printf("%d:%f ", temp[j].index, temp[j].value);
-			//	}
-
-			//	for (int j = 0; j < FEATSIZE; j++) {
-			//		printf("%d:%f ", temp[j].index, temp[j].value);
-			//	}
-			//	printf("\n");
-			//	double cc = svm_predict(train, temp);
-			//	printf("%f ", cc);
-			//	
-			//}
-
-			//free(temp);
- 		}
+			const char *error_msg;
+			struct svm_parameter *params = initParam();
+			struct svm_problem *train_predict_data = extract_model(path, params);
+			error_msg = svm_check_parameter(train_predict_data, params);
+			if (error_msg)
+			{
+				fprintf(stderr, "ERROR: %s\n", error_msg);
+				exit(1);
+			}
+			getch();
+	default:
 		break;
+		}
 	}
-	getch();
 	return 1;
 }
