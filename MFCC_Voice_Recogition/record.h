@@ -54,13 +54,18 @@ typedef enum KEYWORDS {
 -------------------------------------------
 -------------------------------------------*/
 
-SAMPLE *get_audio_signal_from_source(int *size);
-void record_audio_to_database(int is_training, int is_testing);
-char *get_name_of_new_file(char *keyword, char *numerical_order);
-KEYWORDS get_key_word(int key);
-int get_number_of_sample_in_record();
-SAMPLE* read_audio_signal_from_file(char *path);
-
+#ifdef __cplusplus
+extern "C" {
+#endif
+	SAMPLE *get_audio_signal_from_source(int *size);
+	void record_audio_to_database(char *path, int *current_index);
+	char *get_name_of_new_file(char *path, char *keyword, char *numerical_order);
+	KEYWORDS get_key_word(int key);
+	int get_number_of_sample_in_record();
+	SAMPLE* read_audio_signal_from_file(char *path);
+#ifdef __cplusplus
+}
+#endif
 
 
 #endif

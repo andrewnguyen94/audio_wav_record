@@ -30,6 +30,9 @@
     <ClInclude Include="mfcc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="svm2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="record.c">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mfcc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="svm2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

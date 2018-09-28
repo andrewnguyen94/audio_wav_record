@@ -55,16 +55,11 @@ SAMPLE * get_audio_signal_from_source(int *size)
 	err = Pa_StartStream(stream);
 	if (err != paNoError) goto error;
 	printf("Now recording!!\n"); fflush(stdout);
-
 	err = Pa_ReadStream(stream, recordedSamples, totalFrames);
 	if (err != paNoError) goto error;
 
 	err = Pa_CloseStream(stream);
 	if (err != paNoError) goto error;
-
-	//for (int i = 0; i < numSamples; i++) {
-	//	printf(" %f ", recordedSamples[i]);
-	//}
 	return recordedSamples;
 error:
 	Pa_Terminate();
@@ -75,13 +70,12 @@ error:
 	return recordedSamples;
 }
 
-void check_continue(char *y_n, int is_training, int is_testing) {
+void check_continue(char *y_n, char *path, int *current_index) {
 	if (0 == strcmp(y_n, "y")) {
 		free(y_n);
-		record_audio_to_database(is_training, is_testing);
+		record_audio_to_database(path, current_index);
 	}
 	else if (0 == strcmp(y_n, "n")) {
-		free(y_n);
 		return;
 	}
 	else {
@@ -89,33 +83,32 @@ void check_continue(char *y_n, int is_training, int is_testing) {
 		y_n = (char *)malloc(sizeof(char) * 5);
 		printf("wrong answer!!! Reimport answer \n");
 		scanf("%s", y_n);
-		check_continue(y_n, is_training, is_testing);
+		check_continue(y_n, path, current_index);
 	}
 }
 
-void record_audio_to_database(int is_training, int is_testing)
+void record_audio_to_database(char *path, int *current_index)
 {
 	int size;
 	SAMPLE *audio_singal = get_audio_signal_from_source(&size);
+	writeDBFS(audio_singal, 0, size);
 	int number_of_sample = get_number_of_sample_in_record();
 	char *keyword = (char *)malloc(sizeof(char) * 5);
 	char *numerical_order = (char *)malloc(sizeof(char) * 5);
 	char *y_n = (char *)malloc(sizeof(char) * 5);
 
 	printf("choose index of keyword \n");
-	printf("0 is Tu \n");
-	printf("1 is Trung Anh \n");
-	printf("2 is Trung \n");
 	scanf("%s", keyword);
+	*current_index = atoi(keyword);
 	printf("choose the number order of text file to save audio signal \n");
 	scanf("%s", numerical_order);
-	char *name = get_name_of_new_file(keyword, numerical_order);
+	char *name = get_name_of_new_file(path, keyword, numerical_order);
 	FILE *fp = fopen(name, "w");
 	for (int i = 0; i < number_of_sample; ++i) {
-		if (i % NUMBER_OF_ELEMENTS_IN_A_ROW == 0) {
+		if (((i % NUMBER_OF_ELEMENTS_IN_A_ROW) == 0) && (i != 0)) {
 			fprintf(fp, "\n");
 		}
-		fprintf(fp, "%f", audio_singal[i]);
+		fprintf(fp, "%f ", audio_singal[i]);
 	}
 	fclose(fp);
 	free(keyword);
@@ -123,17 +116,17 @@ void record_audio_to_database(int is_training, int is_testing)
 	free(audio_singal);
 	printf("Do you wanna continue to record? (y/n) \n");
 	scanf("%s", y_n);
-	check_continue(y_n, is_training, is_testing);	
+	check_continue(y_n, path, current_index);
 }
 
-char * get_name_of_new_file(char *keyword, char *numerical_order)
+char * get_name_of_new_file(char *path, char *keyword, char *numerical_order)
 {
-	const char *data_folder = "./data/";
+	size_t len_path = strlen(path);
 	const char *ext = ".txt";
 	size_t keyword_len = strlen(keyword);
 	size_t numer_len = strlen(numerical_order);
-	char *name = (char *)malloc(sizeof(char) * (keyword_len + numer_len + 2 + 4 + 7));
-	strcpy(name, data_folder);
+	char *name = (char *)malloc(sizeof(char) * (keyword_len + numer_len + 2 + 4 + len_path));
+	strcpy(name, path);
 	strcat(name, keyword);
 	strcat(name, "_");
 	strcat(name, numerical_order);
@@ -181,3 +174,4 @@ SAMPLE * read_audio_signal_from_file(char * path)
 	fclose(fp);
 	return audio_signal;
 }
+
