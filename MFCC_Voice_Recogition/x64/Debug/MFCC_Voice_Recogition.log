@@ -1,1 +1,19 @@
-﻿  MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe
+﻿  filter.c
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(29): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(31): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(32): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(44): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(9): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(80): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(81): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(83): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(84): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(95): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\visualstudio_workspace\mfcc_voice_recogition\mfcc_voice_recogition\filter.c(67): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  main.c
+  Generating Code...
+  MFCC_Voice_Recogition.vcxproj -> D:\VisualStudio_workspace\MFCC_Voice_Recogition\x64\Debug\MFCC_Voice_Recogition.exe
