@@ -1,6 +1,6 @@
 #include "filter.h"
 
-float * butterworth_bandpass(int order, float * signal, int size, int sample_rate, float high_freq_cutoff, float low_freq_cutoff)
+float * butterworth_bandpass(int order, float * signal, int size, float sample_rate, float high_freq_cutoff, float low_freq_cutoff)
 {
 	if (order % 4) {
 		fprintf(stderr, "order must be 4,8,12,16,...\n");
@@ -61,7 +61,7 @@ float * butterworth_bandpass(int order, float * signal, int size, int sample_rat
 	return x;
 }
 
-float * butterworth_lowpass(int order, float * signal, int size, int sample_rate, float cutoff_freq)
+float * butterworth_lowpass(int order, float * signal, int size, float sample_rate, float cutoff_freq)
 {
 	order = order / 2;
 	float a = tan(M_PI * cutoff_freq / sample_rate);
