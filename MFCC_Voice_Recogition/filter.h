@@ -14,7 +14,7 @@
 -------------------------------------------------
 -------------------------------------------------*/
 
-float *butterworth_bandpass(int order, float *signal, int size, int sample_rate, float high_freq_cutoff, float low_freq_cutoff);
-float *butterworth_lowpass(int order, float *signal, int size, int sample_rate, float cutoff_freq);
+float *butterworth_bandpass(int order, float *signal, int size, float sample_rate, float high_freq_cutoff, float low_freq_cutoff);
+float *butterworth_lowpass(int order, float *signal, int size, float sample_rate, float cutoff_freq);
 
 #endif // !FILTER_H
