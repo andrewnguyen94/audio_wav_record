@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="augmentation.h" />
     <ClInclude Include="filter.h" />
     <ClInclude Include="gemm.h" />
     <ClInclude Include="mfcc.h" />
@@ -131,6 +132,7 @@
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="augmentation.c" />
     <ClCompile Include="filter.c" />
     <ClCompile Include="gemm.c" />
     <ClCompile Include="main.c" />
